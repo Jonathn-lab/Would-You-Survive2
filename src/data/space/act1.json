@@ -1,0 +1,305 @@
+{
+  "meta": {
+    "id": "space_act1_v1",
+    "title": "WYS 2.0 — Void Protocol (Act 1: Hull Breach)",
+    "startNodeId": "station_intro_01"
+  },
+  "nodes": [
+    {
+      "id": "station_intro_01",
+      "text": "Alarms. Red lights. You wake on the floor of your bunk on station Artemis-7. The ceiling is cracked. Emergency klaxons scream in three-second bursts. Your ears ring. Something hit the station. Something big. The intercom crackles: '...hull breach in Sector 4... all personnel... evacuate to...' Static.",
+      "onEnter": [
+        { "type": "setFlag", "key": "act", "value": 1 },
+        { "type": "setFlag", "key": "started", "value": true }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Check the corridor outside", "to": "corridor_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Search your bunk for supplies first", "to": "bunk_search_01" },
+        { "id": "c3", "label": "Try the intercom panel on the wall", "to": "intercom_01" }
+      ]
+    },
+    {
+      "id": "bunk_search_01",
+      "text": "You grab your emergency kit: a flashlight and a basic medkit. Standard issue. Also standard issue: the growing feeling that standard issue won't be enough for whatever just happened.",
+      "onEnter": [
+        { "type": "addItem", "item": "Medkit" },
+        { "type": "addItem", "item": "Flare Gun" }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Head into the corridor", "to": "corridor_01" },
+        { "id": "c2", "label": "Try the intercom", "to": "intercom_01" }
+      ]
+    },
+    {
+      "id": "intercom_01",
+      "text": "You press the intercom button. Static. Then a voice — Dr. Chen from the lab: 'If anyone can hear this, the breach is spreading. Sector 4 is gone. Sector 3 is losing pressure. Get to the Command Module. Do NOT go to the cargo bay. Repeat, do NOT—' The line dies.",
+      "onEnter": [{ "type": "setFlag", "key": "heardChen", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Head toward the Command Module", "to": "corridor_01" },
+        { "id": "c2", "label": "Search your bunk for supplies first", "to": "bunk_search_01" }
+      ]
+    },
+    {
+      "id": "corridor_01",
+      "text": "The corridor is tilted at a wrong angle. Emergency lights paint everything red. Pipes hiss. Ahead, the path splits: left toward the Command Module, right toward the Med Bay. Behind you, a sealed bulkhead groans — Sector 3's pressure is dropping.",
+      "choices": [
+        { "id": "c1", "label": "Go left — Command Module", "to": "command_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Go right — Med Bay", "to": "medbay_01" },
+        { "id": "c3", "label": "Check the bulkhead behind you", "to": "bulkhead_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+    {
+      "id": "bulkhead_01",
+      "text": "Through the bulkhead window, you see Sector 3. Or what's left of it. The ceiling is peeled open like a tin can. Stars are visible through the gap. A body floats past the window — Johnson from engineering. His face is frozen in surprise. The vacuum took him before he could scream.",
+      "onEnter": [{ "type": "stat", "key": "stress", "delta": 2 }],
+      "choices": [
+        { "id": "c1", "label": "Move toward the Command Module", "to": "command_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Go to the Med Bay instead", "to": "medbay_01" }
+      ]
+    },
+    {
+      "id": "medbay_01",
+      "text": "The Med Bay is trashed. Cabinets open, glass everywhere. But the oxygen system is still running here — you can breathe easier. On a counter: an Oxygen Tank and bandages. A crew member is slumped in the corner — Rivera, the medic. She's alive but barely conscious.",
+      "choices": [
+        { "id": "c1", "label": "Grab the Oxygen Tank", "to": "medbay_tank_01", "effects": [{ "type": "addItem", "item": "Oxygen Tank" }] },
+        { "id": "c2", "label": "Help Rivera first", "to": "medbay_rivera_01" },
+        { "id": "c3", "label": "Search the medicine cabinets", "to": "medbay_meds_01" }
+      ]
+    },
+    {
+      "id": "medbay_tank_01",
+      "text": "Oxygen Tank secured. If pressure drops, this buys you maybe twenty minutes of breathing. You hold it like it's made of gold. Because right now, air IS gold.",
+      "choices": [
+        { "id": "c1", "label": "Help Rivera", "to": "medbay_rivera_01" },
+        { "id": "c2", "label": "Head to the Command Module", "to": "command_approach_01" }
+      ]
+    },
+    {
+      "id": "medbay_rivera_01",
+      "text": "Rivera opens her eyes. 'The impact... something punched through Sector 4 like paper. I saw it on the monitors before they went down.' She grabs your arm. 'There's something in the cargo bay. The cameras showed it before they cut out. It wasn't debris. It was moving.'",
+      "onEnter": [
+        { "type": "setFlag", "key": "riveraWarning", "value": true },
+        { "type": "setFlag", "key": "helpedRivera", "value": true }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Take Rivera with you to Command", "to": "rivera_escort_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Leave her and go to Command alone", "to": "command_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Investigate the cargo bay", "to": "cargo_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "medbay_meds_01",
+      "text": "You find painkillers, adrenaline injectors, and — tucked in the back — a Fire Extinguisher. Not medicine, but in an oxygen-rich station, fire is enemy number two. Enemy number one is whatever ripped through the hull.",
+      "onEnter": [
+        { "type": "addItem", "item": "Fire Extinguisher" },
+        { "type": "stat", "key": "health", "delta": 2 }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Help Rivera", "to": "medbay_rivera_01" },
+        { "id": "c2", "label": "Head to Command Module", "to": "command_approach_01" }
+      ]
+    },
+    {
+      "id": "rivera_escort_01",
+      "text": "Rivera leans on your shoulder. You're slower together, but she knows the station's systems better than anyone alive. As you move through the corridor, she whispers: 'The emergency keycards — they're in the Security Office, one deck up. Without one, you can't override the escape pod locks.'",
+      "onEnter": [{ "type": "setFlag", "key": "keycardInfo", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Detour to Security for a keycard", "to": "security_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Go straight to Command", "to": "command_arrive_01" }
+      ]
+    },
+    {
+      "id": "security_01",
+      "text": "The Security Office is intact but dark. Emergency power only. Your flashlight cuts through the black. Lockers line the wall — one is labeled 'EMERGENCY ACCESS.' Inside: a Keycard and a Radio, still picking up static.",
+      "onEnter": [
+        { "type": "addItem", "item": "Keycard" },
+        { "type": "addItem", "item": "Radio" }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Try the Radio", "to": "radio_01" },
+        { "id": "c2", "label": "Head to Command Module", "to": "command_arrive_01" }
+      ]
+    },
+    {
+      "id": "radio_01",
+      "text": "You tune the radio. Static. Then a fragment: '...rescue vessel Helios... en route to Artemis-7... ETA six hours... all survivors proceed to...' More static. Six hours. You just need to stay alive for six hours.",
+      "onEnter": [{ "type": "setFlag", "key": "heardRescue", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Head to Command", "to": "command_arrive_01" }
+      ]
+    },
+    {
+      "id": "cargo_approach_01",
+      "text": "You head toward the cargo bay against every warning. The corridor gets colder. Frost crawls on the walls — the hull breach is nearby and space is leaking in. Your breath fogs. Something scratches on the other side of the cargo door. Rhythmic. Deliberate.",
+      "choices": [
+        { "id": "c1", "label": "Open the cargo bay door", "to": "cargo_open_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c2", "label": "Back away — this was stupid", "to": "command_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+    {
+      "id": "cargo_open_01",
+      "text": "The door opens. The cargo bay is half-depressurized — crates float in zero-g near the breach. And in the center, lodged in the floor like a meteor, is something that is definitely not debris. It's organic. Dark. Pulsing. Tendrils extend from it into the station's wiring. As you stare, a tendril turns toward you. It doesn't have eyes. It sees you anyway.",
+      "onEnter": [{ "type": "setFlag", "key": "sawEntity", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "RUN. Seal the door behind you.", "to": "cargo_flee_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c2", "label": "Use the Fire Extinguisher to blast it", "to": "cargo_fight_01", "requirement": { "type": "hasItem", "item": "Fire Extinguisher" } },
+        { "id": "c3", "label": "Freeze — you can't move", "to": "ending_dead_cargo", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+    {
+      "id": "cargo_fight_01",
+      "text": "You blast the Fire Extinguisher at the thing. The chemical foam hits it and it SCREAMS — not with sound, but with pressure. Your ears pop. The tendrils recoil. You buy yourself seconds and sprint for the door.",
+      "choices": [
+        { "id": "c1", "label": "Seal the door and run to Command", "to": "cargo_flee_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+    {
+      "id": "cargo_flee_01",
+      "text": "You slam the cargo door and engage the emergency seal. The scratching resumes immediately — louder now. Angrier. Whatever that thing is, the door won't hold it forever. You need to get to Command. Now.",
+      "onEnter": [{ "type": "setFlag", "key": "cargoSealed", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Sprint to Command Module", "to": "command_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+    {
+      "id": "ending_dead_cargo",
+      "text": "A tendril wraps around your ankle. Then your waist. Then your throat. The thing pulls you toward it. The last thing you see is darkness that isn't empty — it's full. Full of something that was waiting between stars.",
+      "end": {
+        "type": "dead",
+        "title": "You Died",
+        "reason": "Curiosity killed the astronaut. The thing in the cargo bay didn't need a weapon. It was one."
+      }
+    },
+    {
+      "id": "command_approach_01",
+      "text": "You reach the Command Module corridor. The door is sealed — standard lockdown protocol. A keypad blinks on the wall. You need either an override code or a Keycard. Without one, you're locked out.",
+      "choices": [
+        { "id": "c1", "label": "Use your Keycard", "to": "command_arrive_01", "requirement": { "type": "hasItem", "item": "Keycard" } },
+        { "id": "c2", "label": "Try to hack the keypad", "to": "command_hack_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Go to Security for a keycard", "to": "security_01", "requirement": { "type": "flagEquals", "key": "keycardInfo", "value": true } },
+        { "id": "c4", "label": "Search for another way in", "to": "command_vent_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+    {
+      "id": "command_hack_01",
+      "text": "You try combinations. Birthday. Station ID. '1234.' Nothing works. The keypad locks you out after five attempts. A timer starts: 10 minutes until reset. Behind you, the lights flicker. Something is moving in the corridor you just came from.",
+      "choices": [
+        { "id": "c1", "label": "Go find a keycard at Security", "to": "security_01" },
+        { "id": "c2", "label": "Crawl through the ventilation shaft", "to": "command_vent_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c3", "label": "Wait for the timer to reset", "to": "command_wait_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "command_wait_01",
+      "text": "You wait. The corridor darkens. Something breathes at the far end — wet, heavy, wrong. You can't see it but it's getting closer. The timer has four minutes left.",
+      "choices": [
+        { "id": "c1", "label": "Use Flare Gun to light up the corridor", "to": "command_flare_01", "requirement": { "type": "hasItem", "item": "Flare Gun" } },
+        { "id": "c2", "label": "Give up waiting — run for the vents", "to": "command_vent_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Stand your ground in the dark", "to": "ending_dead_dark", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+    {
+      "id": "command_flare_01",
+      "text": "The flare ignites — blinding red. The corridor lights up. At the far end, something dark and glistening recoils from the light, retreating into a side passage. The timer counts down. When it hits zero, the keypad resets. You punch the emergency code from the manual on the wall. The door opens.",
+      "choices": [
+        { "id": "c1", "label": "Get inside Command NOW", "to": "command_arrive_01" }
+      ]
+    },
+    {
+      "id": "ending_dead_dark",
+      "text": "The darkness reaches you before the timer does. Something cold wraps around you. You try to scream but there's no air to carry it. The station's logs will record your last heartbeat at 03:47 AM.",
+      "end": {
+        "type": "dead",
+        "title": "You Died",
+        "reason": "Standing your ground requires ground to stand on. In space, darkness has teeth."
+      }
+    },
+    {
+      "id": "command_vent_01",
+      "text": "You pry open a ventilation grate and crawl inside. It's tight, dark, and smells like recycled air and fear. The metal groans under your weight. After twenty meters of claustrophobic hell, you drop into the Command Module through a ceiling panel.",
+      "onEnter": [{ "type": "stat", "key": "stamina", "delta": -1 }],
+      "choices": [
+        { "id": "c1", "label": "Get your bearings in Command", "to": "command_arrive_01" }
+      ]
+    },
+    {
+      "id": "command_arrive_01",
+      "text": "The Command Module. Screens flicker with damage reports. Three crew members are here: Dr. Chen at the console, Pilot Okafor strapped into his chair, and — if you brought her — Rivera on a bench. Chen looks up: 'The station is breaking apart. We have maybe four hours. The escape pods in Sector 6 are our only way out.'",
+      "choices": [
+        { "id": "c1", "label": "Ask about the cargo bay", "to": "command_cargo_01", "requirement": { "type": "flagEquals", "key": "sawEntity", "value": true } },
+        { "id": "c2", "label": "Focus on the escape plan", "to": "command_plan_01" },
+        { "id": "c3", "label": "Ask if rescue is coming", "to": "command_rescue_01" }
+      ]
+    },
+    {
+      "id": "command_cargo_01",
+      "text": "You tell Chen what you saw. Her face drains of color. 'I picked up anomalous readings before the impact. Organic signatures. The thing that hit us... wasn't an asteroid.' Okafor looks at both of you: 'Are you telling me this wasn't an accident?' The station groans. Nobody answers.",
+      "onEnter": [{ "type": "setFlag", "key": "crewKnows", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "We need to leave. Now.", "to": "command_plan_01" },
+        { "id": "c2", "label": "We should try to contain it first", "to": "command_contain_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+    {
+      "id": "command_rescue_01",
+      "text": "Okafor checks the comms. 'Helios is en route. Six hours.' Chen shakes her head: 'We don't have six hours. The reactor coolant is leaking. In four hours, this station either freezes or explodes. Either way, we need to be on those escape pods.'",
+      "onEnter": [{ "type": "setFlag", "key": "heardRescue", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Focus on the escape plan", "to": "command_plan_01" }
+      ]
+    },
+    {
+      "id": "command_contain_01",
+      "text": "Chen hesitates. 'We could vent Sector 4 completely — open the hull breach wider and let vacuum kill it. But the controls are in Engineering, which is between us and the escape pods. We'd have to go through it.' Okafor: 'Through the thing's neighborhood. Brilliant.'",
+      "choices": [
+        { "id": "c1", "label": "Do it — vent the sector on the way to pods", "to": "ending_engineering_route" },
+        { "id": "c2", "label": "Skip containment — straight to escape pods", "to": "ending_direct_route" }
+      ]
+    },
+    {
+      "id": "ending_direct_route",
+      "text": "You skip the containment plan. No heroics, no detours. You lead the group straight to Sector 6 at a dead sprint. The station shudders around you — the reactor is destabilizing. You reach the pod bay with minutes to spare, pile in, and launch. Behind you, Artemis-7 begins to break apart. The thing in the cargo bay, the containment plan, Dr. Chen's research — all of it burns. Sometimes the only winning move is to run.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 1 Complete: No Looking Back",
+        "reason": "You abandoned the station without trying to contain the entity. Smart or cowardly? You're alive to debate it."
+      }
+    },
+    {
+      "id": "command_plan_01",
+      "text": "Chen pulls up a station map. 'Sector 6 — the escape pods. Two routes: through Engineering, which gives us access to systems but passes close to the breach. Or through the Observation Deck — longer, but further from the damage.' She looks at you. 'Your call.'",
+      "choices": [
+        { "id": "c1", "label": "Engineering route — faster, more dangerous", "to": "ending_engineering_route" },
+        { "id": "c2", "label": "Observation Deck — safer, slower", "to": "ending_observation_route" },
+        { "id": "c3", "label": "Split up — cover both routes", "to": "ending_split_up", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "ending_engineering_route",
+      "text": "You lead the group through Engineering. Pipes hiss. Lights fail. You move fast, sealing bulkheads behind you. Behind the last door, you hear scratching — but it's behind you now. You reach the pod bay, breathe real air, and strap in. The station shrinks behind you as the pod launches. You made it. For now.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 1 Complete: Engineering Escape",
+        "reason": "You navigated the fastest route out. The thing in the cargo bay is still on the station. But is it?"
+      }
+    },
+    {
+      "id": "ending_observation_route",
+      "text": "The Observation Deck route is longer but calmer. Through the massive windows, you see the station's damage from outside — a gash in the hull, dark and jagged. Something moves inside it. You don't look twice. The pod bay is just ahead. You strap in, launch, and watch Artemis-7 spin away into the black.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 1 Complete: The Long Way Out",
+        "reason": "You took the safe route and got everyone out. The view from the Observation Deck will haunt your dreams."
+      }
+    },
+    {
+      "id": "ending_split_up",
+      "text": "You split the group. It's the rational choice — maximize survival odds. You take Engineering. Chen takes Observation. You hear her on the radio for the first eight minutes. Then silence. You reach the pods. One launches — yours. You watch the station. Chen's pod never launches. The rational choice wasn't the right choice.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 1 Complete: The Cost",
+        "reason": "You survived. Not everyone did. The rational choice left someone behind."
+      }
+    }
+  ]
+}

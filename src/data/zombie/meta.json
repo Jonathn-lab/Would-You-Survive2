@@ -1,0 +1,10 @@
+{
+  "id": "zombie_campaign_v1",
+  "title": "WYS 2.0 — Zombie Campaign",
+  "setting": "suburban",
+  "acts": [
+    { "id": "act1", "file": "act1.json", "title": "The Night" },
+    { "id": "act2", "file": "act2.json", "title": "Escape" },
+    { "id": "act3", "file": "act3.json", "title": "The New Normal" }
+  ]
+}

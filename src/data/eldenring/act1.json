@@ -1,0 +1,516 @@
+{
+  "meta": {
+    "id": "eldenring_act1_v1",
+    "title": "WYS 2.0 — Elden Ring (Act 1: The Awakening)",
+    "startNodeId": "chapel_intro_01"
+  },
+  "nodes": [
+    {
+      "id": "chapel_intro_01",
+      "text": "You open your eyes in a dim stone chapel. Rain hammers the roof. A voice echoes in your skull: 'Rise, Tarnished.' You don't remember your name. You don't remember anything. But your body remembers how to fight — your hands already ache for a weapon.",
+      "onEnter": [
+        { "type": "setFlag", "key": "act", "value": 1 },
+        { "type": "setFlag", "key": "started", "value": true }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Search the chapel for supplies", "to": "chapel_search_01" },
+        { "id": "c2", "label": "Step outside immediately", "to": "chapel_exit_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Examine the glowing light on the floor", "to": "chapel_grace_01" }
+      ]
+    },
+    {
+      "id": "chapel_grace_01",
+      "text": "A golden thread of light spirals from the stone floor — a Site of Grace. When you touch it, warmth floods through you. Memories stir. You are Tarnished, called back by the Erdtree's fading light. The Elden Ring is shattered. Demigods hold its pieces. And you? You're the cleanup crew.",
+      "onEnter": [
+        { "type": "stat", "key": "health", "delta": 2 },
+        { "type": "stat", "key": "stamina", "delta": 1 }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Search the chapel before leaving", "to": "chapel_search_01" },
+        { "id": "c2", "label": "Follow the golden thread outside", "to": "chapel_exit_01" }
+      ]
+    },
+    {
+      "id": "chapel_search_01",
+      "text": "You find a rusted Longsword propped against the altar, a cracked Crimson Flask with healing liquid still inside, and a note: 'Seek the Church of Elleh. Merchant. Supplies. Don't die before you get there. — K'",
+      "onEnter": [
+        { "type": "addItem", "item": "Longsword" },
+        { "type": "addItem", "item": "Crimson Flask" }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Head outside", "to": "chapel_exit_01" },
+        { "id": "c2", "label": "Rest at the grace first", "to": "chapel_grace_01" }
+      ]
+    },
+    {
+      "id": "chapel_exit_01",
+      "text": "You step through the chapel door and freeze. The Lands Between stretch before you — a vast, broken landscape under a fractured golden sky. The Erdtree towers in the distance, massive and wounded, its branches bleeding golden light. Below the cliff, a field of tombstones leads to open grassland. Something howls in the distance.",
+      "choices": [
+        { "id": "c1", "label": "Descend the cliff path carefully", "to": "stranded_graveyard_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Jump down (faster but risky)", "to": "cliff_jump_01", "effects": [{ "type": "stat", "key": "health", "delta": -1 }] },
+        { "id": "c3", "label": "Go back and grab the sword first", "to": "chapel_search_01", "requirement": { "type": "flagEquals", "key": "started", "value": true } }
+      ]
+    },
+    {
+      "id": "cliff_jump_01",
+      "text": "You drop down, hit the ground hard, and roll. Your ankles scream. But you're alive and moving. Ahead: tombstones, a winding path, and the faint shimmer of another grace.",
+      "choices": [
+        { "id": "c1", "label": "Follow the path through the graveyard", "to": "stranded_graveyard_01" }
+      ]
+    },
+    {
+      "id": "stranded_graveyard_01",
+      "text": "The Stranded Graveyard. Tombstones lean at drunk angles. Some of them are fresh. As you pass between them, a skeleton pulls itself from the dirt — empty eye sockets, rusted sword, and absolutely zero chill.",
+      "choices": [
+        { "id": "c1", "label": "Fight it with your sword", "to": "skeleton_fight_01", "requirement": { "type": "hasItem", "item": "Longsword" } },
+        { "id": "c2", "label": "Dodge around it and run", "to": "graveyard_run_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c3", "label": "Throw a rock to distract it", "to": "skeleton_distract_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+    {
+      "id": "skeleton_fight_01",
+      "text": "You swing the Longsword. The skeleton crumbles. Then reassembles. You smash it again. It reassembles again. This is going to be a long relationship. After the fourth time, it finally stays down. You learn an important lesson: in the Lands Between, even the dead don't know when to quit.",
+      "onEnter": [{ "type": "stat", "key": "stamina", "delta": -1 }],
+      "choices": [
+        { "id": "c1", "label": "Continue toward the open field", "to": "limgrave_open_01" },
+        { "id": "c2", "label": "Search the graveyard for loot", "to": "graveyard_loot_01" }
+      ]
+    },
+    {
+      "id": "skeleton_distract_01",
+      "text": "The rock clatters off a tombstone. The skeleton turns its empty skull to investigate. You slip past, heart hammering. It works — until you step on a branch. The skeleton's head swivels back toward you like a security camera.",
+      "choices": [
+        { "id": "c1", "label": "Sprint for it", "to": "graveyard_run_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Stand and fight", "to": "skeleton_fight_01", "requirement": { "type": "hasItem", "item": "Longsword" } }
+      ]
+    },
+    {
+      "id": "graveyard_run_01",
+      "text": "You sprint through the graveyard, leaping over tombstones. More skeletons stir but you're faster. Barely. You burst out into open grassland, lungs burning, and collapse near a golden grace point.",
+      "choices": [
+        { "id": "c1", "label": "Rest at the grace", "to": "limgrave_grace_01" }
+      ]
+    },
+    {
+      "id": "graveyard_loot_01",
+      "text": "Among the graves you find a Lantern — oil-fueled, still working. Useful for dark places. You also find a Golden Seed, pulsing with the Erdtree's power. It could strengthen your healing flask.",
+      "onEnter": [
+        { "type": "addItem", "item": "Lantern" },
+        { "type": "addItem", "item": "Golden Seed" }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Head to the open field", "to": "limgrave_open_01" }
+      ]
+    },
+    {
+      "id": "limgrave_open_01",
+      "text": "Limgrave opens before you like a painting that wants to kill you. Rolling green hills, ancient ruins, and — mounted on a spectral horse in the distance — a knight in golden armor. He hasn't seen you. The golden Erdtree looms behind everything, impossibly large.",
+      "choices": [
+        { "id": "c1", "label": "Head toward the Church of Elleh (the note mentioned it)", "to": "church_approach_01" },
+        { "id": "c2", "label": "Investigate the golden knight", "to": "tree_sentinel_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Follow the road east toward a lake", "to": "agheel_lake_01" }
+      ]
+    },
+    {
+      "id": "limgrave_grace_01",
+      "text": "The grace steadies you. Golden light mends small wounds. You can see a ruined church to the north, and the road stretching east toward water. The Erdtree watches over everything like a disappointed parent.",
+      "onEnter": [
+        { "type": "stat", "key": "health", "delta": 2 },
+        { "type": "stat", "key": "stamina", "delta": 2 },
+        { "type": "stat", "key": "stress", "delta": -1 }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Head north to the Church of Elleh", "to": "church_approach_01" },
+        { "id": "c2", "label": "Head east toward the lake", "to": "agheel_lake_01" },
+        { "id": "c3", "label": "Approach the golden knight on the road", "to": "tree_sentinel_01" }
+      ]
+    },
+    {
+      "id": "tree_sentinel_01",
+      "text": "You approach the golden knight. He's enormous — a Tree Sentinel, guardian of the Erdtree's paths. His horse snorts golden mist. He spots you and raises a halberd the size of a small tree. This was a mistake. This was absolutely a mistake.",
+      "choices": [
+        { "id": "c1", "label": "Fight him head-on", "to": "sentinel_fight_01", "requirement": { "type": "hasItem", "item": "Longsword" }, "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Run. Just run.", "to": "sentinel_flee_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "sentinel_fight_01",
+      "text": "You swing. He doesn't flinch. He swings back. You fly twenty feet and hit the ground so hard your ancestors feel it. The Tree Sentinel is a level 40 enemy and you are level nothing. This is the Lands Between's way of teaching humility.",
+      "choices": [
+        { "id": "c1", "label": "Use Crimson Flask and retreat", "to": "sentinel_flee_01", "requirement": { "type": "hasItem", "item": "Crimson Flask" }, "effects": [{ "type": "stat", "key": "health", "delta": 2 }] },
+        { "id": "c2", "label": "Keep fighting (absolute madness)", "to": "ending_dead_sentinel", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+    {
+      "id": "ending_dead_sentinel",
+      "text": "The halberd comes down one final time. You see golden light. Then nothing. The Tree Sentinel returns to his patrol, unbothered. You were a speed bump on his afternoon commute.",
+      "end": {
+        "type": "dead",
+        "title": "You Died",
+        "reason": "The Tree Sentinel is a lesson disguised as a boss fight. The lesson is: come back later."
+      }
+    },
+    {
+      "id": "sentinel_flee_01",
+      "text": "You run. He doesn't chase — he's a guardian, not a hunter. But the message is clear: the Lands Between has things in it that will end you without even trying. You stumble toward the Church of Elleh, humbled and bruised.",
+      "choices": [
+        { "id": "c1", "label": "Enter the Church of Elleh", "to": "church_approach_01" }
+      ]
+    },
+    {
+      "id": "church_approach_01",
+      "text": "The Church of Elleh is half-collapsed but still standing. Inside, firelight flickers. A merchant sits by the flames, humming a tune that sounds like it's been sad for centuries. He looks up. 'Ah. Another one the Erdtree spat back out.'",
+      "choices": [
+        { "id": "c1", "label": "Talk to the merchant", "to": "merchant_kale_01" },
+        { "id": "c2", "label": "Check the anvil near the wall", "to": "church_anvil_01" },
+        { "id": "c3", "label": "Rest at the grace inside", "to": "church_rest_01" }
+      ]
+    },
+    {
+      "id": "merchant_kale_01",
+      "text": "'Name's Kale,' the merchant says, adjusting his hat. 'I sell things. You buy things. Simple economy for complicated times.' He has a Shield, a Smithing Stone, and information — if you're willing to listen. 'The Gatefront ahead is crawling with Godrick's soldiers. Stormveil Castle beyond that. You'll need to be stronger, or smarter. Preferably both.'",
+      "choices": [
+        { "id": "c1", "label": "Take the Shield", "to": "kale_shield_01", "effects": [{ "type": "addItem", "item": "Shield" }] },
+        { "id": "c2", "label": "Take the Smithing Stone", "to": "kale_stone_01", "effects": [{ "type": "addItem", "item": "Smithing Stone" }] },
+        { "id": "c3", "label": "Ask about the Gatefront", "to": "kale_info_01" }
+      ]
+    },
+    {
+      "id": "kale_shield_01",
+      "text": "Kale hands you a wooden shield. It's not fancy, but it'll keep a sword out of your chest. 'Block, don't just swing,' he advises. 'The dead who swing without thinking stay dead.'",
+      "choices": [
+        { "id": "c1", "label": "Rest at the grace", "to": "church_rest_01" },
+        { "id": "c2", "label": "Head toward the Gatefront", "to": "gatefront_approach_01" }
+      ]
+    },
+    {
+      "id": "kale_stone_01",
+      "text": "A Smithing Stone — rough, glowing faintly. With an anvil, you could reinforce your weapon. Kale nods approvingly. 'Sharper blade, shorter fights. Shorter fights, longer life.'",
+      "choices": [
+        { "id": "c1", "label": "Use the anvil to upgrade your weapon", "to": "church_forge_01", "requirement": { "type": "hasItem", "item": "Longsword" } },
+        { "id": "c2", "label": "Rest at the grace", "to": "church_rest_01" },
+        { "id": "c3", "label": "Head toward the Gatefront", "to": "gatefront_approach_01" }
+      ]
+    },
+    {
+      "id": "kale_info_01",
+      "text": "'The Gatefront is Godrick's forward camp. Soldiers everywhere — bored, violent, loyal to a madman who grafts other people's limbs onto himself. Charming fellow.' Kale leans closer. 'But there's a cellar under the ruins. Bypasses most of the camp. If you're sneaky enough.'",
+      "onEnter": [{ "type": "setFlag", "key": "cellarKnown", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Take the Shield before heading out", "to": "kale_shield_01", "effects": [{ "type": "addItem", "item": "Shield" }] },
+        { "id": "c2", "label": "Head to the Gatefront", "to": "gatefront_approach_01" },
+        { "id": "c3", "label": "Rest at the grace first", "to": "church_rest_01" }
+      ]
+    },
+    {
+      "id": "church_anvil_01",
+      "text": "An old smithing anvil. Still functional. If you had a Smithing Stone, you could reinforce a weapon here.",
+      "choices": [
+        { "id": "c1", "label": "Upgrade your weapon", "to": "church_forge_01", "requirement": { "type": "hasItem", "item": "Smithing Stone" } },
+        { "id": "c2", "label": "Talk to the merchant instead", "to": "merchant_kale_01" },
+        { "id": "c3", "label": "Rest at the grace", "to": "church_rest_01" }
+      ]
+    },
+    {
+      "id": "church_forge_01",
+      "text": "You press the Smithing Stone against the blade. It dissolves into the metal with a hiss. The sword glows, settles — sharper, harder. Your Longsword is reinforced. It hums in your hand like it's grateful.",
+      "onEnter": [{ "type": "setFlag", "key": "weaponUpgraded", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Rest at the grace", "to": "church_rest_01" },
+        { "id": "c2", "label": "Head to the Gatefront", "to": "gatefront_approach_01" }
+      ]
+    },
+    {
+      "id": "church_rest_01",
+      "text": "You rest at the grace. A figure materializes beside you — a young woman in a dark cloak. 'I am Melina,' she says. 'I offer you an accord. I will be your maiden — guide you to the Erdtree. In exchange, you carry me with you. I have... a purpose of my own.' Her eyes hold something old and burning.",
+      "onEnter": [
+        { "type": "stat", "key": "health", "delta": 3 },
+        { "type": "stat", "key": "stamina", "delta": 3 },
+        { "type": "stat", "key": "stress", "delta": -2 }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Accept Melina's accord", "to": "melina_accept_01", "effects": [{ "type": "setFlag", "key": "melinaAccord", "value": true }] },
+        { "id": "c2", "label": "Decline — you work alone", "to": "melina_refuse_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Ask her what her purpose is", "to": "melina_question_01" }
+      ]
+    },
+    {
+      "id": "melina_accept_01",
+      "text": "'Then it is done.' Melina fades, but her presence lingers — a warmth at the edge of your consciousness. You feel stronger. Guided. Less alone in this nightmare world. She whispers: 'Head north. Through the Gatefront. Stormveil Castle holds a shard of the Elden Ring. Godrick the Grafted guards it.'",
+      "choices": [
+        { "id": "c1", "label": "Head to the Gatefront", "to": "gatefront_approach_01" },
+        { "id": "c2", "label": "Explore the lake to the east first", "to": "agheel_lake_01" }
+      ]
+    },
+    {
+      "id": "melina_refuse_01",
+      "text": "Melina's expression doesn't change. 'Very well. The offer remains.' She fades. You're alone again. The Lands Between feels colder now. Self-reliance is admirable right up until it gets you killed.",
+      "choices": [
+        { "id": "c1", "label": "Head to the Gatefront", "to": "gatefront_approach_01" },
+        { "id": "c2", "label": "Explore the lake to the east", "to": "agheel_lake_01" }
+      ]
+    },
+    {
+      "id": "melina_question_01",
+      "text": "'My purpose...' She pauses. Her visible eye flickers. 'I was burned once. By the world. By those who sought the Ring before you. I carry a purpose — same as you. That is enough for now.' She tilts her head. 'Do we have an accord?'",
+      "choices": [
+        { "id": "c1", "label": "Accept the accord", "to": "melina_accept_01", "effects": [{ "type": "setFlag", "key": "melinaAccord", "value": true }] },
+        { "id": "c2", "label": "Decline", "to": "melina_refuse_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+    {
+      "id": "agheel_lake_01",
+      "text": "Agheel Lake stretches before you — shallow, still, scattered with drowned ruins. It's peaceful. Suspiciously peaceful. You've been in the Lands Between long enough to know that 'peaceful' just means something horrible hasn't noticed you yet.",
+      "choices": [
+        { "id": "c1", "label": "Wade into the ruins for treasure", "to": "agheel_ruins_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Skirt the lake edge and head north", "to": "gatefront_approach_01" },
+        { "id": "c3", "label": "Rest at the lakeside grace", "to": "agheel_rest_01" }
+      ]
+    },
+    {
+      "id": "agheel_ruins_01",
+      "text": "You wade through knee-deep water toward a flooded ruin. Stone stairs lead down. Inside, a chest — and the skeleton of whoever opened the last one. Encouraging.",
+      "choices": [
+        { "id": "c1", "label": "Open the chest", "to": "agheel_chest_01" },
+        { "id": "c2", "label": "Leave it — that skeleton is a review", "to": "agheel_rest_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+    {
+      "id": "agheel_chest_01",
+      "text": "Inside: Spirit Ashes — a spectral summoning bell. With this, you can call spirit wolves in battle. The skeleton next to you seems supportive. In death, it's very encouraging.",
+      "onEnter": [{ "type": "addItem", "item": "Spirit Ashes" }],
+      "choices": [
+        { "id": "c1", "label": "Head north toward the Gatefront", "to": "gatefront_approach_01" },
+        { "id": "c2", "label": "Rest at the lakeside grace", "to": "agheel_rest_01" }
+      ]
+    },
+    {
+      "id": "agheel_rest_01",
+      "text": "You rest at the lakeside grace. The water laps gently. Then a massive shadow passes overhead. You look up. A dragon. An actual dragon, circling the lake. It doesn't see you. Yet.",
+      "onEnter": [
+        { "type": "stat", "key": "health", "delta": 2 },
+        { "type": "stat", "key": "stamina", "delta": 2 },
+        { "type": "stat", "key": "stress", "delta": -1 }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Move north quickly before it lands", "to": "gatefront_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Stay and observe the dragon", "to": "agheel_dragon_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "agheel_dragon_01",
+      "text": "Flying Dragon Agheel descends. The lake erupts in fire. Soldiers nearby become instant barbecue. The roar shakes the ground. You have seconds.",
+      "choices": [
+        { "id": "c1", "label": "Run north. Do NOT look back.", "to": "gatefront_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c2", "label": "You looked back", "to": "ending_dead_dragon", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+    {
+      "id": "ending_dead_dragon",
+      "text": "Dragonfire is not warm. It is the end of warmth. Agheel's flame washes over you and the last thing your brain registers is that this was entirely preventable.",
+      "end": {
+        "type": "dead",
+        "title": "You Died",
+        "reason": "When a dragon is burning everything, the correct response is to run. You chose 'observe.'"
+      }
+    },
+    {
+      "id": "gatefront_approach_01",
+      "text": "The Gatefront Ruins rise ahead — crumbling walls, a large gate, and a camp of soldiers loyal to Godrick the Grafted. They haven't spotted you yet. The road through leads to Stormveil Castle. The road around leads to who knows where.",
+      "choices": [
+        { "id": "c1", "label": "Charge through the front", "to": "gatefront_fight_01", "requirement": { "type": "hasItem", "item": "Longsword" }, "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Sneak around the camp", "to": "gatefront_sneak_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c3", "label": "Scout from a distance first", "to": "gatefront_scout_01" },
+        { "id": "c4", "label": "Enter through the cellar", "to": "gatefront_cellar_01", "requirement": { "type": "flagEquals", "key": "cellarKnown", "value": true } }
+      ]
+    },
+    {
+      "id": "gatefront_scout_01",
+      "text": "You watch from the hillside. Fifteen soldiers, a ballista on the wall, and near the back — a Site of Grace guarded by two sentries. There's also a cellar entrance half-hidden by rubble.",
+      "onEnter": [{ "type": "setFlag", "key": "cellarKnown", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Sneak toward the back grace", "to": "gatefront_sneak_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Enter through the cellar", "to": "gatefront_cellar_01" },
+        { "id": "c3", "label": "Summon Spirit Ashes as a distraction", "to": "gatefront_summon_01", "requirement": { "type": "hasItem", "item": "Spirit Ashes" } }
+      ]
+    },
+    {
+      "id": "gatefront_fight_01",
+      "text": "You draw the Longsword and charge. The first soldier barely turns before you cut him down. The alarm sounds. The whole camp is alive with shouting and steel.",
+      "choices": [
+        { "id": "c1", "label": "Fight through to the gate", "to": "gatefront_battle_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "health", "delta": -2 }] },
+        { "id": "c2", "label": "Summon Spirit Ashes for backup", "to": "gatefront_summon_battle_01", "requirement": { "type": "hasItem", "item": "Spirit Ashes" } },
+        { "id": "c3", "label": "Disengage and flee into the ruins", "to": "gatefront_cellar_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }, { "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+    {
+      "id": "gatefront_sneak_01",
+      "text": "You creep along the cliff edge above the camp. Below, soldiers patrol. One yawns. Another picks his nose. Godrick's finest. You slip past and reach a grace at the far side.",
+      "choices": [
+        { "id": "c1", "label": "Rest at the grace", "to": "gatefront_grace_01" }
+      ]
+    },
+    {
+      "id": "gatefront_summon_01",
+      "text": "You raise the Spirit Ashes. Three spectral wolves materialize, snarling. They charge into camp. Soldiers panic, swinging at enemies they can barely see. Your path to the grace is clear.",
+      "onEnter": [{ "type": "setFlag", "key": "usedSpirits", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Sprint to the grace", "to": "gatefront_grace_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+    {
+      "id": "gatefront_summon_battle_01",
+      "text": "Spectral wolves materialize beside you, howling. The soldiers falter. You press the advantage, cutting through confusion. By the time the wolves fade, you've reached the other side.",
+      "choices": [
+        { "id": "c1", "label": "Press on to the grace", "to": "gatefront_grace_01" }
+      ]
+    },
+    {
+      "id": "gatefront_battle_01",
+      "text": "You fight through. Sword meets sword. You take hits — arm, side. But the Longsword sings and soldiers fall. By the end, you're standing in a circle of bodies, bleeding hard.",
+      "choices": [
+        { "id": "c1", "label": "Drink Crimson Flask and push to grace", "to": "gatefront_grace_01", "requirement": { "type": "hasItem", "item": "Crimson Flask" }, "effects": [{ "type": "stat", "key": "health", "delta": 3 }] },
+        { "id": "c2", "label": "Push forward without healing", "to": "gatefront_grace_01", "effects": [{ "type": "stat", "key": "health", "delta": -1 }] }
+      ]
+    },
+    {
+      "id": "gatefront_cellar_01",
+      "text": "You drop into the cellar. Darkness. Cobwebs. Old wine and something worse. You feel along the walls and find stairs leading up — emerging behind the main camp, near a grace.",
+      "choices": [
+        { "id": "c1", "label": "Light the Lantern and search", "to": "gatefront_cellar_search_01", "requirement": { "type": "hasItem", "item": "Lantern" } },
+        { "id": "c2", "label": "Climb the stairs to the grace", "to": "gatefront_grace_01" }
+      ]
+    },
+    {
+      "id": "gatefront_cellar_search_01",
+      "text": "Your Lantern reveals a Rune Arc in the corner — a curved golden fragment humming with concentrated grace. Pocketed.",
+      "onEnter": [{ "type": "addItem", "item": "Rune Arc" }],
+      "choices": [
+        { "id": "c1", "label": "Head up to the grace", "to": "gatefront_grace_01" }
+      ]
+    },
+    {
+      "id": "gatefront_grace_01",
+      "text": "The Gatefront grace steadies you. From here, the path winds north up Stormhill toward Stormveil Castle. Dark clouds wrap its towers. Lightning flashes. Even the weather is dramatic in this place.",
+      "onEnter": [
+        { "type": "stat", "key": "health", "delta": 2 },
+        { "type": "stat", "key": "stamina", "delta": 2 },
+        { "type": "stat", "key": "stress", "delta": -1 }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Take the main road toward Stormveil", "to": "stormhill_path_01" },
+        { "id": "c2", "label": "Look for a safer route around", "to": "stormhill_detour_01" },
+        { "id": "c3", "label": "Use the Rune Arc to prepare", "to": "rune_arc_use_01", "requirement": { "type": "hasItem", "item": "Rune Arc" } }
+      ]
+    },
+    {
+      "id": "rune_arc_use_01",
+      "text": "You crush the Rune Arc. Golden energy floods your veins. Muscles tighten. Vision sharpens. For a moment you feel what it must be like to be a demigod — powerful, certain, untouchable. It won't last, but right now you're ready for anything.",
+      "onEnter": [
+        { "type": "stat", "key": "health", "delta": 3 },
+        { "type": "stat", "key": "stamina", "delta": 2 },
+        { "type": "stat", "key": "stress", "delta": -2 },
+        { "type": "setFlag", "key": "runeArcActive", "value": true }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Head up Stormhill", "to": "stormhill_path_01" },
+        { "id": "c2", "label": "Take the detour path", "to": "stormhill_detour_01" }
+      ]
+    },
+    {
+      "id": "stormhill_path_01",
+      "text": "The road climbs. Wind howls. Rain bites. You pass crucified bodies along the roadside — Godrick's welcome committee. Ahead, a crumbling shack and a hunched figure beside it. Soldier? Traveler? Trap?",
+      "choices": [
+        { "id": "c1", "label": "Approach the figure", "to": "stormhill_stranger_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Ignore them, keep climbing", "to": "stormhill_climb_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c3", "label": "Shelter in the shack", "to": "stormhill_shack_01" }
+      ]
+    },
+    {
+      "id": "stormhill_stranger_01",
+      "text": "Not a soldier — a wounded knight. No lord's banner. 'Tarnished,' he croaks. 'I am Rogier. I sought Stormveil... and Stormveil broke me.' He coughs blood. 'There's a side passage through the cliffs. Godrick doesn't guard it. Too arrogant.'",
+      "onEnter": [{ "type": "setFlag", "key": "metRogier", "value": true }, { "type": "setFlag", "key": "sidePassageKnown", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Help Rogier and get directions", "to": "rogier_help_01", "effects": [{ "type": "stat", "key": "stress", "delta": -1 }] },
+        { "id": "c2", "label": "Take his intel and move on", "to": "stormhill_climb_01" },
+        { "id": "c3", "label": "Give him the Crimson Flask", "to": "rogier_flask_01", "requirement": { "type": "hasItem", "item": "Crimson Flask" } }
+      ]
+    },
+    {
+      "id": "rogier_help_01",
+      "text": "'The side passage enters through the cliffs east of the main gate. Storm-hawk feathers mark the path.' He grips your arm. 'Godrick grafts the limbs of the fallen onto himself. Do not let him take yours.'",
+      "choices": [
+        { "id": "c1", "label": "Take the side passage to the castle", "to": "ending_castle_side" },
+        { "id": "c2", "label": "Continue up the main road", "to": "stormhill_climb_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+    {
+      "id": "rogier_flask_01",
+      "text": "You hand Rogier the flask. Color returns to his face. He stares at you — kindest or most foolish person he's met. Possibly both. He tells you everything about Stormveil's defenses. Every patrol. Every weak point.",
+      "onEnter": [
+        { "type": "setFlag", "key": "rogierDetailed", "value": true },
+        { "type": "stat", "key": "stress", "delta": -2 }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Use his intel — take the side passage", "to": "ending_castle_side" },
+        { "id": "c2", "label": "Storm the main gate with his knowledge", "to": "ending_castle_main" }
+      ]
+    },
+    {
+      "id": "stormhill_shack_01",
+      "text": "You huddle in the shack. Rain drums the roof. A rat watches you with landlord confidence. You rest, but the wind carries sounds from the castle — screams, hammering, something that might be laughter but sounds like grinding bones.",
+      "onEnter": [
+        { "type": "stat", "key": "stamina", "delta": 2 },
+        { "type": "stat", "key": "stress", "delta": 1 }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Move out when the rain eases", "to": "stormhill_climb_01" },
+        { "id": "c2", "label": "Check the figure outside", "to": "stormhill_stranger_01" }
+      ]
+    },
+    {
+      "id": "stormhill_climb_01",
+      "text": "You crest a hill and there it is: Stormveil Castle. Massive. Ancient. Every window dark except those lit by fire. The main gate is ahead, heavily guarded. To the east, a narrow cliff path — unguarded.",
+      "choices": [
+        { "id": "c1", "label": "Approach the main gate", "to": "ending_castle_main", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Take the cliff path (side passage)", "to": "ending_castle_side", "requirement": { "type": "flagEquals", "key": "sidePassageKnown", "value": true } },
+        { "id": "c3", "label": "Turn back — you're not ready", "to": "stormhill_detour_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "stormhill_detour_01",
+      "text": "You take the long way around, skirting the cliffs east of Stormveil. The detour leads through a misty ravine — Liurnia territory. The air changes. Colder. Wetter. But you're alive, and alive is the best stat you've got.",
+      "choices": [
+        { "id": "c1", "label": "Push through to Liurnia", "to": "ending_liurnia" },
+        { "id": "c2", "label": "Circle back and face Stormveil", "to": "stormhill_climb_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+    {
+      "id": "ending_castle_main",
+      "text": "You approach Stormveil's main gate. A gatekeeper sneers: 'Another Tarnished. Godrick will add your arms to his collection.' The portcullis rises. You step inside. Whatever happens next, you survived the awakening.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 1 Complete: The Main Gate",
+        "reason": "You entered Stormveil through the front door. Bold. Reckless. Exactly what a Tarnished would do."
+      }
+    },
+    {
+      "id": "ending_castle_side",
+      "text": "You find the cliff passage — storm-hawk feathers marking the way. The path is narrow, the wind savage. But you make it, slipping into Stormveil unseen. Godrick doesn't know you're here. Yet.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 1 Complete: The Hidden Path",
+        "reason": "You infiltrated Stormveil through the side passage. Cunning over courage."
+      }
+    },
+    {
+      "id": "ending_liurnia",
+      "text": "You bypass Stormveil entirely, descending into misty Liurnia. The Academy of Raya Lucaria glows in the distance. You skipped a boss. Speedrunners everywhere salute you. But Godrick still holds his shard of the Ring.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 1 Complete: The Detour",
+        "reason": "You avoided Stormveil and pushed into Liurnia. The ring shards can wait. Survival comes first."
+      }
+    }
+  ]
+}

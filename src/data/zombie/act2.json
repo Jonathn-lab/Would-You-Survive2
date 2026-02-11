@@ -1,0 +1,286 @@
+{
+  "meta": {
+    "id": "zombie_act2_escape_v1",
+    "title": "WYS 2.0 — Zombie Campaign (Act 2: Escape)",
+    "startNodeId": "act2_intro_01"
+  },
+  "nodes": [
+    {
+      "id": "act2_intro_01",
+      "text": "Dawn creeps in slow and gray. Whatever the world was yesterday, it’s gone. You survived the night—but surviving the day will be harder.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Move toward the high school evacuation site",
+          "to": "evac_approach_01",
+          "requirement": { "type": "flagEquals", "key": "heardEvac", "value": true }
+        },
+        {
+          "id": "c2",
+          "label": "Stay off main routes and scavenge",
+          "to": "scavenge_intro_01"
+        },
+        {
+          "id": "c3",
+          "label": "Lay low and rest (dangerous but needed)",
+          "to": "rest_01",
+          "effects": [{ "type": "stat", "key": "stamina", "delta": 1 }]
+        }
+      ]
+    },
+    {
+      "id": "evac_approach_01",
+      "text": "You approach the high school. Barricades. Armed volunteers. A line of exhausted people. And beyond the fence… movement.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Join the line and wait",
+          "to": "evac_line_01",
+          "effects": [{ "type": "stat", "key": "stress", "delta": 1 }]
+        },
+        {
+          "id": "c2",
+          "label": "Sneak around the perimeter",
+          "to": "evac_sneak_01",
+          "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }]
+        }
+      ]
+    },
+    {
+      "id": "evac_line_01",
+      "text": "The line barely moves. Soldiers whisper. Someone ahead starts coughing—wet, wrong. Eyes turn. Hands tighten on weapons.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Stay calm and keep your head down",
+          "to": "evac_screening_01"
+        },
+        {
+          "id": "c2",
+          "label": "Slip away quietly",
+          "to": "scavenge_intro_01",
+          "effects": [{ "type": "stat", "key": "stress", "delta": 1 }]
+        }
+      ]
+    },
+    {
+      "id": "evac_screening_01",
+      "text": "They check arms. Necks. Anyone scratched gets pulled aside. A medic locks eyes with you.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Submit to screening",
+          "to": "evac_clear_01",
+          "requirement": { "type": "flagEquals", "key": "scratched", "value": false }
+        },
+        {
+          "id": "c2",
+          "label": "Panic and bolt",
+          "to": "ending_dead_01",
+          "requirement": { "type": "flagEquals", "key": "scratched", "value": true }
+        }
+      ]
+    },
+    {
+      "id": "evac_clear_01",
+      "text": "They wave you through. Inside the gym: cots, water, crying kids. You feel relief—and dread. This place won’t stay safe forever.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 2 Complete: Evacuation Camp",
+        "reason": "You made it into organized safety. Act 3 will test whether order can survive collapse."
+      }
+    },
+    {
+      "id": "evac_sneak_01",
+      "text": "You slip behind dumpsters and fencing. You see soldiers dragging a body away. It’s still moving.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Abort and scavenge elsewhere",
+          "to": "scavenge_intro_01"
+        },
+        {
+          "id": "c2",
+          "label": "Push inside anyway",
+          "to": "ending_dead_01"
+        }
+      ]
+    },
+    {
+      "id": "scavenge_intro_01",
+      "text": "You stick to backstreets. Houses sit open like they were abandoned mid-thought. Supplies are everywhere—if you’re willing to risk it.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Enter a grocery store",
+          "to": "store_01"
+        },
+        {
+          "id": "c2",
+          "label": "Check abandoned homes",
+          "to": "homes_01"
+        }
+      ]
+    },
+    {
+      "id": "store_01",
+      "text": "The grocery store smells wrong. Shelves are smashed. Something rattles in the back room.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Grab supplies fast",
+          "to": "store_loot_01",
+          "effects": [{ "type": "addItem", "item": "Food" }]
+        },
+        {
+          "id": "c2",
+          "label": "Investigate the noise",
+          "to": "store_noise_01"
+        }
+      ]
+    },
+    {
+      "id": "store_noise_01",
+      "text": "You round the corner and freeze. An infected is wedged under fallen shelving—still snapping.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Finish it with a weapon",
+          "to": "store_escape_01",
+          "requirement": { "type": "hasItem", "item": "Tool" }
+        },
+        {
+          "id": "c2",
+          "label": "Run",
+          "to": "store_escape_01",
+          "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }]
+        }
+      ]
+    },
+    {
+      "id": "store_loot_01",
+      "text": "You grab food and water. Your bag is heavier—but so are your chances.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Leave quietly",
+          "to": "scavenge_continue_01"
+        }
+      ]
+    },
+    {
+      "id": "store_escape_01",
+      "text": "You escape into daylight, breathing hard. That was too close.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Keep scavenging",
+          "to": "scavenge_continue_01"
+        }
+      ]
+    },
+    {
+      "id": "homes_01",
+      "text": "Inside a house, you find photos on the wall. Someone lived here. Maybe still does.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Search bedrooms",
+          "to": "homes_bedroom_01",
+          "effects": [{ "type": "addItem", "item": "Bandages" }]
+        },
+        {
+          "id": "c2",
+          "label": "Leave before guilt slows you down",
+          "to": "scavenge_continue_01"
+        }
+      ]
+    },
+    {
+      "id": "homes_bedroom_01",
+      "text": "You hear movement upstairs. A floorboard creaks.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Hide",
+          "to": "homes_hide_01"
+        },
+        {
+          "id": "c2",
+          "label": "Flee the house",
+          "to": "scavenge_continue_01"
+        }
+      ]
+    },
+    {
+      "id": "homes_hide_01",
+      "text": "A survivor stumbles past the doorway, sobbing. They don’t see you. You don’t call out.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Leave silently",
+          "to": "scavenge_continue_01"
+        }
+      ]
+    },
+    {
+      "id": "scavenge_continue_01",
+      "text": "You’ve got supplies. But the city is closing in. You need a long-term plan.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Look for a group to join",
+          "to": "ending_group_01"
+        },
+        {
+          "id": "c2",
+          "label": "Stay solo and mobile",
+          "to": "ending_loner_01"
+        }
+      ]
+    },
+    {
+      "id": "rest_01",
+      "text": "You barricade yourself somewhere quiet and rest. Your body recovers—but outside, the world keeps decaying.",
+      "choices": [
+        {
+          "id": "c1",
+          "label": "Wake and move",
+          "to": "scavenge_intro_01"
+        },
+        {
+          "id": "c2",
+          "label": "Sleep longer",
+          "to": "ending_dead_01"
+        }
+      ]
+    },
+    {
+      "id": "ending_group_01",
+      "text": "You link up with others. Strength in numbers. Politics in survival. Act 3 will test loyalty.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 2 Complete: Group Survivor",
+        "reason": "You chose cooperation over isolation."
+      }
+    },
+    {
+      "id": "ending_loner_01",
+      "text": "You stay alone. Faster. Quieter. Colder. Act 3 will push how long one person can last.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 2 Complete: Lone Wolf",
+        "reason": "You trust no one but yourself."
+      }
+    },
+    {
+      "id": "ending_dead_01",
+      "text": "You make a mistake. In this world, that’s all it takes.",
+      "end": {
+        "type": "dead",
+        "title": "You Died",
+        "reason": "Survival punishes hesitation and bad luck equally."
+      }
+    }
+  ]
+}

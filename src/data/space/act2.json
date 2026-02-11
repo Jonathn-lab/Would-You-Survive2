@@ -1,0 +1,258 @@
+{
+  "meta": {
+    "id": "space_act2_v1",
+    "title": "WYS 2.0 — Void Protocol (Act 2: The Signal)",
+    "startNodeId": "pod_drift_01"
+  },
+  "nodes": [
+    {
+      "id": "pod_drift_01",
+      "text": "The escape pod drifts. Artemis-7 is a shrinking silhouette behind you — broken, venting atmosphere like a wounded animal. The pod's systems hum. Oxygen: 14 hours. Power: 18 hours. Then the radio crackles. A signal. Not the Helios rescue ship. Something else. A repeating loop: 'Meridian Station... docking bay open... all survivors welcome...'",
+      "choices": [
+        { "id": "c1", "label": "Set course for Meridian Station", "to": "meridian_approach_01" },
+        { "id": "c2", "label": "Ignore it — wait for the Helios", "to": "pod_wait_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Try to analyze the signal", "to": "signal_analyze_01" }
+      ]
+    },
+    {
+      "id": "pod_wait_01",
+      "text": "You wait. Hours crawl. The oxygen counter ticks down. 12 hours. 10 hours. 8 hours. The Helios doesn't respond on any frequency. The Meridian signal keeps repeating. Patient. Inviting. Your oxygen hits 6 hours. Waiting is no longer an option.",
+      "onEnter": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 1 }],
+      "choices": [
+        { "id": "c1", "label": "Fine — head to Meridian", "to": "meridian_approach_01" },
+        { "id": "c2", "label": "Send a distress burst on all frequencies", "to": "distress_burst_01" }
+      ]
+    },
+    {
+      "id": "distress_burst_01",
+      "text": "You broadcast on every channel. Static. Static. Then — a reply. Not words. A sound. The same wet scratching you heard on Artemis-7, transmitted through radio waves. The signal is coming from the direction of Meridian Station. Whatever was on Artemis-7... it got here first.",
+      "onEnter": [{ "type": "stat", "key": "stress", "delta": 2 }, { "type": "setFlag", "key": "heardScratching", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Go to Meridian anyway — no choice", "to": "meridian_approach_01" }
+      ]
+    },
+    {
+      "id": "signal_analyze_01",
+      "text": "You run the signal through the pod's basic analyzer. The loop is automated — a standard emergency beacon. But underneath it, buried in the carrier wave, there's a second signal. Biological in origin. Rhythmic. Like a heartbeat. Or a lure.",
+      "onEnter": [{ "type": "setFlag", "key": "analyzedSignal", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Head to Meridian — carefully", "to": "meridian_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Wait for the Helios instead", "to": "pod_wait_01" }
+      ]
+    },
+    {
+      "id": "meridian_approach_01",
+      "text": "Meridian Station materializes from the dark. It's older than Artemis-7 — a mining relay from the first wave of deep-space expansion. The lights are on. The docking bay is open, just like the signal promised. Too inviting. The pod's sensors show atmosphere inside. Breathable. Power running. But no life signs.",
+      "choices": [
+        { "id": "c1", "label": "Dock and board the station", "to": "meridian_dock_01" },
+        { "id": "c2", "label": "Circle the station first — scan for damage", "to": "meridian_scan_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+    {
+      "id": "meridian_scan_01",
+      "text": "You orbit Meridian. The hull is intact — no breaches. But one section is wrong. The metal is discolored, darker, with a texture that looks almost organic. Like something grew over it. Like bark on a tree. Or skin on a wound. It covers most of the lower deck.",
+      "onEnter": [{ "type": "setFlag", "key": "sawGrowth", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Dock anyway — oxygen is running out", "to": "meridian_dock_01" },
+        { "id": "c2", "label": "Dock at the upper bay — away from the growth", "to": "meridian_upper_dock_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+    {
+      "id": "meridian_upper_dock_01",
+      "text": "The upper docking bay is tight and clearly wasn't designed for escape pods, but you force the connection. The seal holds. Air hisses in — cold but breathable. You're on the upper deck. Away from whatever is growing on the lower levels. For now.",
+      "choices": [
+        { "id": "c1", "label": "Search the upper deck", "to": "upper_deck_01" }
+      ]
+    },
+    {
+      "id": "meridian_dock_01",
+      "text": "The pod locks into the main docking bay. The seal engages. Air floods in — it smells wrong. Not recycled-station wrong. Organic wrong. Like soil and copper. The docking bay is lit but empty. Crates are overturned. A coffee mug sits on a console, still half full. Someone left in a hurry. Or didn't leave at all.",
+      "onEnter": [{ "type": "stat", "key": "stress", "delta": 1 }],
+      "choices": [
+        { "id": "c1", "label": "Head to the Operations Center", "to": "ops_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Search the docking bay for supplies", "to": "dock_search_01" },
+        { "id": "c3", "label": "Check the station logs on the console", "to": "dock_logs_01" }
+      ]
+    },
+    {
+      "id": "dock_search_01",
+      "text": "You search the crates. Most are empty mining supplies — drills, sample containers. But one holds an emergency suit patch kit and a Wrench. Heavy. Good for turning bolts. Good for other things too.",
+      "onEnter": [{ "type": "addItem", "item": "Wrench" }, { "type": "stat", "key": "health", "delta": 1 }],
+      "choices": [
+        { "id": "c1", "label": "Check the station logs", "to": "dock_logs_01" },
+        { "id": "c2", "label": "Head to Operations", "to": "ops_approach_01" }
+      ]
+    },
+    {
+      "id": "dock_logs_01",
+      "text": "The console is still logged in. Last entry, three days ago: 'Sample from asteroid field is reactive. Moved to containment in Lab 3. Dr. Vasquez says it's responding to electrical stimulation. It grew 400% overnight. Requesting guidance from corporate.' No further entries. No evacuation log. No distress call. They just... stopped.",
+      "onEnter": [{ "type": "setFlag", "key": "readLogs", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Head to Operations Center", "to": "ops_approach_01" },
+        { "id": "c2", "label": "Go to Lab 3 — find this sample", "to": "lab_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "upper_deck_01",
+      "text": "The upper deck is crew quarters. Beds unmade. Personal items scattered. A tablet on a bunk plays a looping video message: a woman — Dr. Vasquez — whispering into the camera. 'It's in the walls now. It ate through containment. If you're hearing this, don't go to the lower deck. Send the signal. The frequency kills it. 1,742 hertz. The transmitter is in Operations.'",
+      "onEnter": [{ "type": "setFlag", "key": "vasquezMessage", "value": true }, { "type": "addItem", "item": "Tablet" }],
+      "choices": [
+        { "id": "c1", "label": "Get to Operations — use the frequency", "to": "ops_approach_01" },
+        { "id": "c2", "label": "Search more of the crew quarters", "to": "quarters_search_01" }
+      ]
+    },
+    {
+      "id": "quarters_search_01",
+      "text": "You find a locker with a Flare Gun and spare oxygen canister. Also a hand-written note pinned to the wall: 'It doesn't like light. Or heat. The cold makes it grow faster. Keep the station WARM.' Someone underlined 'WARM' three times.",
+      "onEnter": [{ "type": "addItem", "item": "Flare Gun" }, { "type": "stat", "key": "health", "delta": 1 }],
+      "choices": [
+        { "id": "c1", "label": "Head to Operations", "to": "ops_approach_01" }
+      ]
+    },
+    {
+      "id": "lab_approach_01",
+      "text": "Lab 3 is on the lower deck. The corridor leading down changes halfway — the walls are no longer metal. They're covered in the same dark organic material you saw from outside. It pulses faintly. The temperature drops with each step. Your breath fogs.",
+      "onEnter": [{ "type": "stat", "key": "stress", "delta": 1 }],
+      "choices": [
+        { "id": "c1", "label": "Keep going to the lab", "to": "lab_enter_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Turn back — go to Operations instead", "to": "ops_approach_01" }
+      ]
+    },
+    {
+      "id": "lab_enter_01",
+      "text": "Lab 3 is unrecognizable. The containment unit is shattered. The 'sample' is no longer a sample — it's become the room. Tendrils cover every surface, pulsing with bioluminescent light. In the center, suspended in a web of organic matter, is Dr. Vasquez. Her eyes are open. She's still alive. She mouths one word: 'Run.'",
+      "onEnter": [{ "type": "setFlag", "key": "sawVasquez", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Try to free Vasquez", "to": "lab_rescue_01", "effects": [{ "type": "stat", "key": "health", "delta": -2 }, { "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Use a Flare Gun — burn it", "to": "lab_burn_01", "requirement": { "type": "hasItem", "item": "Flare Gun" } },
+        { "id": "c3", "label": "Run — like she said", "to": "ops_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "lab_rescue_01",
+      "text": "You tear at the tendrils holding Vasquez. They resist — tough as cable. She shakes her head. 'The transmitter... Operations... 1,742 hertz...' A tendril lashes at you, cutting your arm. You pull harder. The web doesn't break. But Vasquez does — her eyes close. She's gone. The tendrils tighten around where she was, filling the gap. You back away.",
+      "onEnter": [{ "type": "stat", "key": "stress", "delta": 2 }, { "type": "setFlag", "key": "vasquezDead", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Get to Operations — honor her last words", "to": "ops_approach_01" }
+      ]
+    },
+    {
+      "id": "lab_burn_01",
+      "text": "The flare hits the organic mass and it SCREAMS. Not sound — pressure. The tendrils recoil from the heat. Fire spreads across the biomass. Vasquez falls free. She's unconscious but breathing. The fire buys you minutes before the station's suppression systems kick in.",
+      "onEnter": [{ "type": "setFlag", "key": "savedVasquez", "value": true }, { "type": "setFlag", "key": "burnedLab", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Carry Vasquez to Operations", "to": "ops_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+    {
+      "id": "ops_approach_01",
+      "text": "The Operations Center is on the mid-deck. The door is sealed but not locked — the power is still running. Inside, consoles glow with automated systems. The station transmitter sits against the far wall — a large antenna array wired into the station's power grid. If Dr. Vasquez was right, the right frequency could kill this thing.",
+      "choices": [
+        { "id": "c1", "label": "Activate the transmitter at 1,742 Hz", "to": "transmitter_activate_01", "requirement": { "type": "flagEquals", "key": "vasquezMessage", "value": true } },
+        { "id": "c2", "label": "Search Operations for information", "to": "ops_search_01" },
+        { "id": "c3", "label": "Try to contact the Helios rescue ship", "to": "ops_helios_01" },
+        { "id": "c4", "label": "Reroute power to heat the station", "to": "ops_heat_01" }
+      ]
+    },
+    {
+      "id": "ops_search_01",
+      "text": "You dig through the files. Dr. Vasquez's research notes: the organism is silicon-based, thrives in cold vacuum, and is vulnerable to specific sound frequencies. Her last note: 'Transmitter calibrated to 1,742 Hz. Broadcast station-wide. It should kill the organism. If it doesn't, overload the reactor. Either way, it doesn't leave this station.'",
+      "onEnter": [{ "type": "setFlag", "key": "vasquezMessage", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Activate the transmitter", "to": "transmitter_activate_01" },
+        { "id": "c2", "label": "Consider the reactor overload option", "to": "reactor_option_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "ops_helios_01",
+      "text": "You reach the Helios on long-range comms. A calm voice: 'Artemis-7 survivors, we read you. ETA three hours to your beacon. Hold position.' Three hours. You tell them about the organism. Silence. Then: 'Understood. Containment protocols will be enacted on arrival. Do NOT let it reach open space.' The line cuts.",
+      "onEnter": [{ "type": "setFlag", "key": "heliosContact", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Use the transmitter to kill it before Helios arrives", "to": "transmitter_activate_01", "requirement": { "type": "flagEquals", "key": "vasquezMessage", "value": true } },
+        { "id": "c2", "label": "Search Operations for more info", "to": "ops_search_01" },
+        { "id": "c3", "label": "Just wait for Helios — let them handle it", "to": "wait_helios_01" }
+      ]
+    },
+    {
+      "id": "ops_heat_01",
+      "text": "You reroute reactor power to the heating systems. The station warms. From below deck, a sound — like ice cracking. The organism doesn't like heat. The dark patches on the hull start to shrink on the external cameras. It's working. Slowly. But the reactor is already strained from the reroute.",
+      "onEnter": [{ "type": "setFlag", "key": "heatedStation", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Now use the transmitter to finish it", "to": "transmitter_activate_01", "requirement": { "type": "flagEquals", "key": "vasquezMessage", "value": true } },
+        { "id": "c2", "label": "Keep heating — let it cook", "to": "ending_overheat", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c3", "label": "Search Operations for more options", "to": "ops_search_01" }
+      ]
+    },
+    {
+      "id": "wait_helios_01",
+      "text": "You wait. The station creaks around you. The organic growth on the lower deck spreads — you watch it on the cameras. It reaches the mid-deck corridor. Tendrils creep under the Operations door. The Helios is still two hours away. The organism is twenty minutes away. Waiting was a mistake.",
+      "choices": [
+        { "id": "c1", "label": "Activate the transmitter NOW", "to": "transmitter_activate_01", "requirement": { "type": "flagEquals", "key": "vasquezMessage", "value": true } },
+        { "id": "c2", "label": "Flee to the escape pod", "to": "ending_flee_meridian", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c3", "label": "Overload the reactor — kill everything", "to": "reactor_option_01" }
+      ]
+    },
+    {
+      "id": "reactor_option_01",
+      "text": "The reactor overload is the nuclear option. Literally. It would vaporize the station, the organism, and everyone still aboard. Vasquez's notes say it's the backup plan. The question is: can you get to the escape pod before the reactor blows? It's a four-minute window.",
+      "choices": [
+        { "id": "c1", "label": "Overload the reactor and run for the pod", "to": "ending_reactor_run", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c2", "label": "Try the transmitter first — less destructive", "to": "transmitter_activate_01", "requirement": { "type": "flagEquals", "key": "vasquezMessage", "value": true } },
+        { "id": "c3", "label": "No — there has to be another way", "to": "ops_approach_01" }
+      ]
+    },
+    {
+      "id": "transmitter_activate_01",
+      "text": "You set the frequency to 1,742 hertz and hit broadcast. The station speakers scream — a piercing tone that makes your teeth ache. From below, something screams back. The cameras show the organic mass convulsing, splitting, dissolving. It works. The organism tears itself apart. The station shudders as the biomass detaches from the hull. Then silence. Real silence. The screens go green. Atmosphere stable. Hull integrity holding. Meridian Station is clear.",
+      "choices": [
+        { "id": "c1", "label": "Send an all-clear to the Helios", "to": "ending_victory" },
+        { "id": "c2", "label": "Check the lower deck — make sure it's dead", "to": "ending_verify" }
+      ]
+    },
+    {
+      "id": "ending_victory",
+      "text": "The Helios arrives three hours later. A containment team sweeps the station — nothing alive remains of the organism. They find you in Operations, exhausted but breathing. 'You killed it?' the team leader asks. You nod. She looks at the transmitter. 'One frequency. A sound killed a thing from between stars.' She shakes her head. 'Vasquez was brilliant.' You don't disagree. You just wish she were alive to hear it.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 2 Complete: Signal Received",
+        "reason": "You used Dr. Vasquez's research to destroy the organism. The Helios took you home. The nightmares will take longer to leave."
+      }
+    },
+    {
+      "id": "ending_verify",
+      "text": "You descend to the lower deck. The organic mass is gone — dissolved into grey ash that coats every surface. Lab 3 is empty. The containment unit is shattered but clean. Then you see it: in the corner, a single tendril, no bigger than a finger, still pulsing. Still alive. You grab the Wrench and crush it. It pops like a blister. Nothing else moves. When the Helios arrives, you tell them to burn everything anyway. They do.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 2 Complete: Scorched Clean",
+        "reason": "You destroyed the organism and made sure nothing survived. Thorough. Paranoid. Alive."
+      }
+    },
+    {
+      "id": "ending_overheat",
+      "text": "You push the reactor past safe limits. The station becomes an oven. The organism screams — you feel it in the walls, in the floor, in your bones. Then the reactor warning blares: critical overload in 90 seconds. You've cooked the organism. You've also cooked the station. The escape pod bay is sixty seconds away. You run. The airlock seals behind you just as Meridian Station goes white-hot. The pod launches into the void. Behind you, the station glows like a dying star. Nothing survives that heat. Nothing.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 2 Complete: Burn It All",
+        "reason": "You overloaded the reactor to kill the organism. Effective. Expensive. You escaped with seconds to spare."
+      }
+    },
+    {
+      "id": "ending_reactor_run",
+      "text": "You initiate the overload and sprint. Four minutes. The corridor stretches forever. Tendrils grab at your legs — the organism knows what you've done. You tear free, leaving skin on the organic mass. The pod bay door is ahead. Three minutes. You throw yourself inside, seal the hatch, and launch. Two minutes later, Meridian Station erupts in a silent white flash. The shockwave spins your pod. When it stabilizes, there's nothing left. Not the station. Not the organism. Just debris and silence.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 2 Complete: No Witnesses",
+        "reason": "You destroyed Meridian Station and the organism with it. The Helios found your pod drifting in a field of debris. You were the only survivor."
+      }
+    },
+    {
+      "id": "ending_flee_meridian",
+      "text": "You run for the docking bay. The tendrils are faster. They've blocked the main corridor. You try a side passage — sealed. The organism has locked you in. It's not just growing anymore. It's hunting. The last thing you hear is the docking bay door groaning as something massive pushes through it from the other side.",
+      "end": {
+        "type": "dead",
+        "title": "You Died",
+        "reason": "You waited too long and the organism cut off your escape. In space, hesitation is fatal."
+      }
+    }
+  ]
+}

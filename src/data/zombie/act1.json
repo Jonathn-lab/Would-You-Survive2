@@ -1,0 +1,638 @@
+{
+  "meta": {
+    "id": "zombie_act1_suburban_v1",
+    "title": "WYS 2.0 — Zombie Campaign (Act 1: The Night)",
+    "startNodeId": "suburb_intro_01"
+  },
+  "nodes": [
+    {
+      "id": "suburb_intro_01",
+      "text": "2:13 AM. Your phone screams: 'EMERGENCY ALERT — Stay inside.' Outside, a dog is barking like it’s trying to warn the entire universe. Then your front door handle clicks… slowly.",
+      "onEnter": [
+        { "type": "setFlag", "key": "act", "value": 1 },
+        { "type": "setFlag", "key": "started", "value": true }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Kill the lights and stay still", "to": "dark_house_01", "effects": [{ "type": "setFlag", "key": "lightsOff", "value": true }] },
+        { "id": "c2", "label": "Peek through a window blind", "to": "window_peek_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Grab your phone and call 911", "to": "call_911_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "dark_house_01",
+      "text": "You kill the lights. The house becomes a black box. The door handle stops moving—like whatever’s outside is listening for you to breathe wrong.",
+      "choices": [
+        { "id": "c1", "label": "Move quietly toward the kitchen", "to": "kitchen_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Crawl to your bedroom closet and hide", "to": "closet_hide_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Text your best friend: 'Something’s at my door.'", "to": "text_friend_01", "effects": [{ "type": "setFlag", "key": "textedFriend", "value": true }] }
+      ]
+    },
+
+    {
+      "id": "window_peek_01",
+      "text": "You lift the blind two millimeters. On your porch: your neighbor. Barefoot. Face smeared. Their mouth hangs open like they forgot how to be a person.",
+      "choices": [
+        { "id": "c1", "label": "Back away quietly and lock everything", "to": "lockdown_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Whisper through the door: 'You okay?'", "to": "door_whisper_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c3", "label": "Grab something to defend yourself", "to": "grab_weapon_01" }
+      ]
+    },
+
+    {
+      "id": "call_911_01",
+      "text": "You call 911. It rings. And rings. Then a recorded voice: 'All operators are busy.' In the background, your front door handle jiggles harder.",
+      "choices": [
+        { "id": "c1", "label": "Stop calling and move—now", "to": "grab_weapon_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Keep calling (one more time)", "to": "call_911_02", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "call_911_02",
+      "text": "You try again. This time someone answers… then the line goes dead. Your porch light flickers once. The handle stops. Silence.",
+      "choices": [
+        { "id": "c1", "label": "Use the silence to prepare", "to": "grab_weapon_01" },
+        { "id": "c2", "label": "Look outside again", "to": "window_peek_02", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "text_friend_01",
+      "text": "You text: 'Something’s outside.' Your friend replies instantly: 'DON’T OPEN ANYTHING. TURN OFF LIGHTS. STAY QUIET.' Helpful. Also terrifying.",
+      "choices": [
+        { "id": "c1", "label": "Go to the kitchen for supplies", "to": "kitchen_01" },
+        { "id": "c2", "label": "Lock down the house", "to": "lockdown_01" },
+        { "id": "c3", "label": "Check the driveway/garage", "to": "garage_check_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+
+    {
+      "id": "lockdown_01",
+      "text": "You lock the deadbolt. Chain lock. Back door. Sliding glass. You realize you’ve never appreciated a lock this much in your life.",
+      "onEnter": [{ "type": "setFlag", "key": "lockedDown", "value": true }],
+      "choices": [
+        { "id": "c1", "label": "Go to the kitchen to arm up", "to": "kitchen_01" },
+        { "id": "c2", "label": "Check your garage for a way out", "to": "garage_check_01" },
+        { "id": "c3", "label": "Go upstairs and look from a safer angle", "to": "upstairs_lookout_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "door_whisper_01",
+      "text": "You whisper. The figure snaps its head toward the sound like a cat hearing a can open. It slams into the door with its shoulder.",
+      "choices": [
+        { "id": "c1", "label": "RUN. Kitchen. Now.", "to": "kitchen_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Barricade the door with furniture", "to": "barricade_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+
+    {
+      "id": "grab_weapon_01",
+      "text": "You need something. Anything. You’re in pajamas. This is not the fit for dying.",
+      "choices": [
+        { "id": "c1", "label": "Go to the kitchen for a knife", "to": "kitchen_01" },
+        { "id": "c2", "label": "Go to the garage (tools, car, exit)", "to": "garage_check_01" },
+        { "id": "c3", "label": "Grab a flashlight from the hallway drawer", "to": "flashlight_drawer_01" }
+      ]
+    },
+
+    {
+      "id": "flashlight_drawer_01",
+      "text": "You open the drawer quietly and feel around. Your fingers hit plastic. Flashlight.",
+      "onEnter": [{ "type": "addItem", "item": "Flashlight" }],
+      "choices": [
+        { "id": "c1", "label": "Go to the kitchen for more", "to": "kitchen_01" },
+        { "id": "c2", "label": "Go to the garage", "to": "garage_check_01" },
+        { "id": "c3", "label": "Look outside again (safer now)", "to": "window_peek_02", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "kitchen_01",
+      "text": "Kitchen. Your safe little normal place—now a weapons menu. You spot a knife block, bottled water, and a first aid kit under the sink.",
+      "choices": [
+        { "id": "c1", "label": "Take a kitchen knife", "to": "kitchen_take_knife", "effects": [{ "type": "addItem", "item": "Knife" }] },
+        { "id": "c2", "label": "Take bottled water", "to": "kitchen_take_water", "effects": [{ "type": "addItem", "item": "Water" }] },
+        { "id": "c3", "label": "Grab the first aid kit", "to": "kitchen_take_med", "effects": [{ "type": "addItem", "item": "FirstAid" }] }
+      ]
+    },
+
+    {
+      "id": "kitchen_take_knife",
+      "text": "Knife acquired. You immediately feel 12% safer and 200% more delusional about your chances in a horror scenario.",
+      "choices": [
+        { "id": "c1", "label": "Lock down the house fully", "to": "lockdown_01" },
+        { "id": "c2", "label": "Go to the garage", "to": "garage_check_01" },
+        { "id": "c3", "label": "Check upstairs to scout", "to": "upstairs_lookout_01" }
+      ]
+    },
+
+    {
+      "id": "kitchen_take_water",
+      "text": "You grab bottled water. Survival brain kicks in. You hate that it’s working.",
+      "choices": [
+        { "id": "c1", "label": "Grab a knife too", "to": "kitchen_take_knife", "effects": [{ "type": "addItem", "item": "Knife" }] },
+        { "id": "c2", "label": "Go to the garage", "to": "garage_check_01" },
+        { "id": "c3", "label": "Hide and wait", "to": "closet_hide_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "kitchen_take_med",
+      "text": "First aid kit secured. If you survive tonight, you’re never skipping a CPR class again.",
+      "choices": [
+        { "id": "c1", "label": "Grab a knife too", "to": "kitchen_take_knife", "effects": [{ "type": "addItem", "item": "Knife" }] },
+        { "id": "c2", "label": "Go to the garage", "to": "garage_check_01" },
+        { "id": "c3", "label": "Lock down and wait", "to": "wait_01" }
+      ]
+    },
+
+    {
+      "id": "upstairs_lookout_01",
+      "text": "Upstairs. You peek through a second-floor window. Streetlights glow. Two houses down, someone is sprinting in the road… and something else is sprinting faster behind them.",
+      "choices": [
+        { "id": "c1", "label": "Back away. Stay hidden.", "to": "wait_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Check your driveway/garage exit plan", "to": "garage_check_01" },
+        { "id": "c3", "label": "Try to help by shouting (bad idea)", "to": "shout_help_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+
+    {
+      "id": "shout_help_01",
+      "text": "You shout. The sprinting thing stops instantly. It looks up. You can’t see its eyes clearly—but you feel it seeing you anyway.",
+      "choices": [
+        { "id": "c1", "label": "Duck down and move now", "to": "garage_check_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Hide upstairs and pray", "to": "closet_hide_02", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+
+    {
+      "id": "garage_check_01",
+      "text": "Garage door to the house is locked. You open it slowly. Your car sits there like a loyal dog. Also: tools. Also: an exit to the driveway.",
+      "choices": [
+        { "id": "c1", "label": "Grab a heavy tool (crowbar-ish vibes)", "to": "garage_tool_01", "effects": [{ "type": "addItem", "item": "Tool" }] },
+        { "id": "c2", "label": "Try the car keys and prep to leave", "to": "car_prep_01" },
+        { "id": "c3", "label": "Crack the garage door a little and look outside", "to": "garage_peek_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "garage_tool_01",
+      "text": "You grab a heavy tool. It’s not a sword, but it’ll do. Your arms feel slightly more confident than your soul.",
+      "choices": [
+        { "id": "c1", "label": "Look outside from the garage door crack", "to": "garage_peek_01" },
+        { "id": "c2", "label": "Prep the car and leave", "to": "car_prep_01" },
+        { "id": "c3", "label": "Go back inside and lock down", "to": "lockdown_01" }
+      ]
+    },
+
+    {
+      "id": "garage_peek_01",
+      "text": "You lift the garage door two inches. The driveway is empty. But the street… there’s movement near the neighbor’s mailbox. Too twitchy. Too wrong.",
+      "choices": [
+        { "id": "c1", "label": "Close it and leave in the car anyway", "to": "car_prep_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Close it and wait inside", "to": "wait_01" },
+        { "id": "c3", "label": "Sneak out on foot through the backyard gate", "to": "backyard_exit_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+
+    {
+      "id": "window_peek_02",
+      "text": "You peek again. The porch is empty now. But there’s a wet smear on the glass. And you don’t remember it being there before.",
+      "choices": [
+        { "id": "c1", "label": "Lock everything down", "to": "lockdown_01" },
+        { "id": "c2", "label": "Go to the garage and leave", "to": "car_prep_01" },
+        { "id": "c3", "label": "Hide. Quiet. Don’t be perceived.", "to": "closet_hide_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "barricade_01",
+      "text": "You shove a chair and a small table into place. The door bucks once. Twice. The wood groans. You have seconds, not minutes.",
+      "choices": [
+        { "id": "c1", "label": "Sprint to the garage for the car", "to": "car_prep_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Run upstairs and hide", "to": "closet_hide_02", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c3", "label": "Fight at the door (insane)", "to": "door_fight_01", "requirement": { "type": "hasItem", "item": "Knife" } }
+      ]
+    },
+
+    {
+      "id": "door_fight_01",
+      "text": "You grip the knife. The door cracks open a finger-width. A hand snakes through—fingernails broken, skin gray. It grabs for you.",
+      "choices": [
+        { "id": "c1", "label": "Stab the hand and slam the door", "to": "door_fight_02", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "You hesitate (mistake)", "to": "ending_dead_01", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+
+    {
+      "id": "door_fight_02",
+      "text": "You stab. It shrieks like a broken radio. The hand retreats. The door slams. Your hands shake. You’re alive. For now.",
+      "choices": [
+        { "id": "c1", "label": "Run to the garage and leave", "to": "car_prep_01" },
+        { "id": "c2", "label": "Hide. Now.", "to": "closet_hide_02", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+
+    {
+      "id": "closet_hide_01",
+      "text": "You hide in a closet. It smells like detergent and denial. Outside, you hear soft footsteps… then a scrape along the wall, like someone searching with their hands.",
+      "choices": [
+        { "id": "c1", "label": "Hold your breath and wait", "to": "wait_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Quietly move toward the garage", "to": "garage_check_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+
+    {
+      "id": "closet_hide_02",
+      "text": "Upstairs closet. The house creaks. Then you hear it—your downstairs window cracking. Something is inside your house now. Congrats.",
+      "choices": [
+        { "id": "c1", "label": "Try to sneak down the stairs", "to": "stair_sneak_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Stay hidden and hope it passes", "to": "wait_02", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+
+    {
+      "id": "stair_sneak_01",
+      "text": "You step onto the top stair. It creaks. You freeze. Downstairs, a head tilts. You hear wet breathing.",
+      "choices": [
+        { "id": "c1", "label": "Commit. Move fast to the garage door", "to": "garage_check_02", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Retreat and barricade upstairs bedroom", "to": "bedroom_barricade_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "bedroom_barricade_01",
+      "text": "You shove a dresser against the bedroom door. You look at the window. Roof outside. You could climb out and drop into the backyard… maybe.",
+      "choices": [
+        { "id": "c1", "label": "Climb out to the roof", "to": "roof_escape_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Stay and wait (dangerous)", "to": "wait_03", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+
+    {
+      "id": "roof_escape_01",
+      "text": "Cold air hits your face. You climb onto the roof. Below, the backyard is dark. The fence gate is slightly open. Like someone already went through.",
+      "choices": [
+        { "id": "c1", "label": "Drop into the backyard and run", "to": "backyard_exit_01", "effects": [{ "type": "stat", "key": "health", "delta": -1 }] },
+        { "id": "c2", "label": "Try to reach the driveway from the side roofline", "to": "driveway_roofline_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+
+    {
+      "id": "driveway_roofline_01",
+      "text": "You edge along the roofline. One wrong step and you’re a news headline. You see your car in the driveway… and movement near it.",
+      "choices": [
+        { "id": "c1", "label": "Drop near the car and run for it", "to": "car_prep_02", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Abort. Backyard escape instead", "to": "backyard_exit_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+
+    {
+      "id": "garage_check_02",
+      "text": "You reach the garage door from inside the house. Something shuffles behind you in the dark living room. You don’t look back.",
+      "choices": [
+        { "id": "c1", "label": "Enter the garage and close the door fast", "to": "car_prep_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "It grabs you—fight it off", "to": "grabbed_01", "effects": [{ "type": "stat", "key": "health", "delta": -2 }] }
+      ]
+    },
+
+    {
+      "id": "grabbed_01",
+      "text": "A hand clamps your shoulder. It’s cold. Too strong. You twist away but it rakes your arm—skin breaks. You feel a sting.",
+      "choices": [
+        { "id": "c1", "label": "Break free and run into the garage", "to": "car_prep_01", "effects": [{ "type": "setFlag", "key": "scratched", "value": true }, { "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c2", "label": "You panic and freeze", "to": "ending_dead_01", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+
+    {
+      "id": "backyard_exit_01",
+      "text": "Backyard. Damp grass. The fence gate is open. A neighbor’s porch light flickers across the yard. You hear something crawling under a bush nearby.",
+      "choices": [
+        { "id": "c1", "label": "Sneak through the gate to the street", "to": "street_sneak_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Run—no sneaking, just GO", "to": "street_run_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "car_prep_01",
+      "text": "You slide into the driver’s seat. Hands shaking. The keys are—where are the keys? You fumble. Outside, you hear a wet thud against the garage door.",
+      "choices": [
+        { "id": "c1", "label": "Start the car (fast)", "to": "car_start_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Turn on your flashlight first", "to": "car_flashlight_01", "requirement": { "type": "hasItem", "item": "Flashlight" } },
+        { "id": "c3", "label": "Get out and escape on foot (through the back)", "to": "backyard_exit_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "car_flashlight_01",
+      "text": "You click the flashlight. You spot your keys in the cup holder. You also spot a smear of blood on the passenger window—fresh.",
+      "choices": [
+        { "id": "c1", "label": "Start the car NOW", "to": "car_start_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "car_start_01",
+      "text": "The engine turns over. Loud. Too loud. Outside, something slams the garage door again. You hit the button to open it. The door rises… slowly… like it hates you.",
+      "choices": [
+        { "id": "c1", "label": "Gun it the moment there’s space", "to": "car_escape_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Wait until it’s fully open (safer?)", "to": "car_escape_02", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "car_prep_02",
+      "text": "You drop near the car. Something shambles out from between two vehicles—its head jerks toward you. It starts sprinting. Not limping. Sprinting.",
+      "choices": [
+        { "id": "c1", "label": "Dive into the car and start it", "to": "car_start_01", "effects": [{ "type": "stat", "key": "health", "delta": -1 }, { "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c2", "label": "Abort. Backyard escape", "to": "backyard_exit_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+
+    {
+      "id": "car_escape_01",
+      "text": "You gun it. The moment the garage clears your hood, a figure lunges from the side. It clips the car and rolls away like a ragdoll. You don’t stop. You keep going.",
+      "choices": [
+        { "id": "c1", "label": "Head toward the main road (more danger, faster escape)", "to": "street_mainroad_01", "effects": [{ "type": "setFlag", "key": "inCar", "value": true }] },
+        { "id": "c2", "label": "Cut through side streets quietly", "to": "street_sidestreet_01", "effects": [{ "type": "setFlag", "key": "inCar", "value": true }, { "type": "stat", "key": "stress", "delta": -1 }] }
+      ]
+    },
+
+    {
+      "id": "car_escape_02",
+      "text": "You wait. The garage door opens higher. In that extra second, something squeezes under and reaches for your hood—then it stands upright.",
+      "choices": [
+        { "id": "c1", "label": "Gun it anyway", "to": "car_escape_01", "effects": [{ "type": "stat", "key": "health", "delta": -1 }, { "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c2", "label": "Too slow. It gets in.", "to": "ending_dead_01", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+
+    {
+      "id": "street_sneak_01",
+      "text": "You sneak through yards and shadows. The street is a horror museum: open doors, abandoned cars, someone’s bicycle tossed in a ditch. You hear distant screaming—then silence.",
+      "choices": [
+        { "id": "c1", "label": "Head to the neighborhood park (open space)", "to": "park_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Go house-to-house looking for a safe light", "to": "house_hunt_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "street_run_01",
+      "text": "You run. Feet pounding. Your breathing is a siren. Behind you, something answers with fast footsteps. You’re not alone out here.",
+      "choices": [
+        { "id": "c1", "label": "Sprint to the park (open space)", "to": "park_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Cut into a random house’s backyard", "to": "random_backyard_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+
+    {
+      "id": "random_backyard_01",
+      "text": "You cut into a backyard and hop a small fence. A dog bowl sits on the porch. No dog. You hear the chasing footsteps slow down—like it lost you.",
+      "choices": [
+        { "id": "c1", "label": "Hide behind the shed", "to": "shed_hide_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Keep moving toward the park", "to": "park_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+
+    {
+      "id": "shed_hide_01",
+      "text": "You hide behind the shed. You hear sniffing. Then a low, wet growl. Something is on the other side of the wood panel—way too close.",
+      "choices": [
+        { "id": "c1", "label": "Fight it off with your tool", "to": "shed_fight_01", "requirement": { "type": "hasItem", "item": "Tool" } },
+        { "id": "c2", "label": "Break cover and run", "to": "park_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "shed_fight_01",
+      "text": "You swing the tool blindly as it lunges around the shed corner. You connect. It drops. Not dead… but slowed. Your arms burn.",
+      "choices": [
+        { "id": "c1", "label": "Run for the park", "to": "park_approach_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+
+    {
+      "id": "house_hunt_01",
+      "text": "You approach a house with a faint light inside. Curtains drawn. You hear someone whispering. This could be help… or a trap.",
+      "choices": [
+        { "id": "c1", "label": "Knock softly and identify yourself", "to": "house_knock_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Back away. Park route instead.", "to": "park_approach_01" }
+      ]
+    },
+
+    {
+      "id": "house_knock_01",
+      "text": "You knock. A voice: 'Who is it?' They sound terrified… but human. The door chain rattles.",
+      "choices": [
+        { "id": "c1", "label": "Tell the truth: 'I’m running from infected. I need shelter.'", "to": "house_shelter_01", "effects": [{ "type": "setFlag", "key": "metSurvivors", "value": true }] },
+        { "id": "c2", "label": "Lie: 'Police—open up.' (risky)", "to": "house_lie_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+
+    {
+      "id": "house_lie_01",
+      "text": "Silence. Then: 'Nice try.' The light goes off. You hear a heavy piece of furniture scraping against the door from inside. You’ve been rejected professionally.",
+      "choices": [
+        { "id": "c1", "label": "Leave. Park route.", "to": "park_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "house_shelter_01",
+      "text": "The chain opens an inch. A person peers out. They see your hands—empty (or not). They whisper: 'Get inside, fast.'",
+      "choices": [
+        { "id": "c1", "label": "Enter and accept shelter", "to": "act1_safehouse_01", "effects": [{ "type": "setFlag", "key": "safehouse", "value": true }] },
+        { "id": "c2", "label": "Decline. You need to find someone else.", "to": "park_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "park_approach_01",
+      "text": "You reach the neighborhood park. Open field. Playground. A gazebo. The openness is safer… until it isn’t. You see shapes moving near the swings.",
+      "choices": [
+        { "id": "c1", "label": "Creep around the edges toward the gazebo", "to": "gazebo_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Risk it—sprint across to the far street", "to": "park_sprint_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+
+    {
+      "id": "park_sprint_01",
+      "text": "You sprint across the park. The shapes turn. Heads snap. You realize they weren’t slow. They were waiting.",
+      "choices": [
+        { "id": "c1", "label": "Keep running (do not look back)", "to": "ending_dead_01", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] },
+        { "id": "c2", "label": "Cut hard toward the gazebo", "to": "gazebo_01", "effects": [{ "type": "stat", "key": "health", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+
+    {
+      "id": "gazebo_01",
+      "text": "Under the gazebo, you find a stash: a backpack, a battery radio, and a note: 'IF YOU’RE READING THIS, DON’T TRUST THE MAIN ROAD.'",
+      "choices": [
+        { "id": "c1", "label": "Take the backpack (extra storage)", "to": "gazebo_takepack_01", "effects": [{ "type": "addItem", "item": "Backpack" }] },
+        { "id": "c2", "label": "Turn on the radio", "to": "radio_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c3", "label": "Leave the park via side streets", "to": "street_sidestreet_01" }
+      ]
+    },
+
+    {
+      "id": "gazebo_takepack_01",
+      "text": "Backpack secured. You feel like a protagonist now. Which is… not always a good thing.",
+      "choices": [
+        { "id": "c1", "label": "Turn on the radio", "to": "radio_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Leave via side streets", "to": "street_sidestreet_01" }
+      ]
+    },
+
+    {
+      "id": "radio_01",
+      "text": "Static. Then a shaky voice: '…evacuation at the high school gym… avoid main roads… if you’re bitten—' The message cuts out.",
+      "choices": [
+        { "id": "c1", "label": "Head toward the high school (goal)", "to": "act1_route_choice_01", "effects": [{ "type": "setFlag", "key": "heardEvac", "value": true }] },
+        { "id": "c2", "label": "Ignore evac. Find a safehouse instead", "to": "house_hunt_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "street_mainroad_01",
+      "text": "You take the main road. Bad idea vibes. Abandoned cars clog the lanes. Far ahead, you see flashing lights… and silhouettes moving between them.",
+      "choices": [
+        { "id": "c1", "label": "Turn around and take side streets", "to": "street_sidestreet_01", "effects": [{ "type": "stat", "key": "stress", "delta": -1 }] },
+        { "id": "c2", "label": "Push forward (fast)", "to": "mainroad_push_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+
+    {
+      "id": "mainroad_push_01",
+      "text": "You push forward. Something slams your passenger window from outside. Another hit. Your car swerves. You’re about to lose control.",
+      "choices": [
+        { "id": "c1", "label": "Floor it and break through", "to": "ending_infected_01", "effects": [{ "type": "setFlag", "key": "scratched", "value": true }, { "type": "stat", "key": "health", "delta": -1 }] },
+        { "id": "c2", "label": "Bail out and run", "to": "street_sneak_01", "effects": [{ "type": "stat", "key": "health", "delta": -2 }, { "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+
+    {
+      "id": "street_sidestreet_01",
+      "text": "Side streets. Quieter. Darker. You see a couple survivors up ahead near a cul-de-sac. They’re armed. They’re watching you.",
+      "choices": [
+        { "id": "c1", "label": "Approach calmly with hands visible", "to": "survivors_meet_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Avoid them. Keep moving alone", "to": "act1_route_choice_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "survivors_meet_01",
+      "text": "A survivor calls out: 'Stop right there. You bitten?' Their flashlight beam shakes. They’re scared—same as you.",
+      "choices": [
+        { "id": "c1", "label": "Tell the truth: show your arms", "to": "survivors_check_01" },
+        { "id": "c2", "label": "Lie: 'I’m fine.'", "to": "survivors_lie_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "survivors_lie_01",
+      "text": "They narrow their eyes. One raises their weapon slightly. 'Everybody says that.'",
+      "choices": [
+        { "id": "c1", "label": "Back off and leave", "to": "act1_route_choice_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Admit it: 'Okay, I’m scared. I don’t know.'", "to": "survivors_check_01", "effects": [{ "type": "stat", "key": "stress", "delta": -1 }] }
+      ]
+    },
+
+    {
+      "id": "survivors_check_01",
+      "text": "They check you quickly. If you have a visible scratch, their whole mood changes.",
+      "choices": [
+        { "id": "c1", "label": "If you're scratched, beg them to let you come anyway", "to": "survivors_scratched_01", "requirement": { "type": "flagEquals", "key": "scratched", "value": true } },
+        { "id": "c2", "label": "If you're NOT scratched, join them", "to": "act1_safehouse_01", "requirement": { "type": "flagEquals", "key": "scratched", "value": false }, "effects": [{ "type": "setFlag", "key": "joinedSurvivors", "value": true }] }
+      ]
+    },
+
+    {
+      "id": "survivors_scratched_01",
+      "text": "They see the scratch. One whispers, 'No. No way.' Another looks guilty. They’re deciding if you’re a person or a future problem.",
+      "choices": [
+        { "id": "c1", "label": "Leave peacefully (so they don’t shoot)", "to": "ending_infected_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c2", "label": "Threaten them (idiotic)", "to": "ending_dead_01", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+
+    {
+      "id": "act1_route_choice_01",
+      "text": "You have a direction now: the high school gym might be evac. Or you can hole up somewhere and pray morning comes.",
+      "choices": [
+        { "id": "c1", "label": "Head toward the high school gym (evac rumor)", "to": "act1_complete_01", "effects": [{ "type": "setFlag", "key": "headingEvac", "value": true }] },
+        { "id": "c2", "label": "Find/return to a safehouse (survivors / a lit house)", "to": "act1_safehouse_01", "effects": [{ "type": "setFlag", "key": "headingSafehouse", "value": true }] }
+      ]
+    },
+
+    {
+      "id": "act1_safehouse_01",
+      "text": "You reach a safehouse scenario—either you’re let in by survivors, or you find a home that’s secured. For now, you’re breathing. For now.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 1 Complete: Shelter Found",
+        "reason": "You survived the night by staying quiet, moving smart, and getting under a roof with real barriers."
+      }
+    },
+
+    {
+      "id": "act1_complete_01",
+      "text": "You move toward the high school. In the distance you see floodlights and hear a generator. The night isn’t over… but you made it to the next chapter.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 1 Complete: Evac Route",
+        "reason": "You escaped the neighborhood and set a goal. Act 2 will decide if evac is real… or a trap."
+      }
+    },
+
+    {
+      "id": "ending_dead_01",
+      "text": "The night wins. Everything goes loud, then quiet. You don’t get a second try out here.",
+      "end": {
+        "type": "dead",
+        "title": "You Died",
+        "reason": "Tonight punished hesitation, noise, and bad timing."
+      }
+    },
+
+    {
+      "id": "ending_infected_01",
+      "text": "You feel it later. The heat under your skin. The itch in your veins. You keep moving—because stopping would mean admitting what you already know.",
+      "end": {
+        "type": "infected",
+        "title": "You’re Infected",
+        "reason": "A scratch is enough. Act 2 might still be playable… but the clock is now inside you."
+      }
+    },
+
+    {
+      "id": "wait_01",
+      "text": "You wait in the dark. Minutes feel like hours. Somewhere outside, glass breaks. Somewhere closer, something drags itself along your wall.",
+      "choices": [
+        { "id": "c1", "label": "You can’t wait—move to the garage", "to": "garage_check_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }, { "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Keep waiting (risky)", "to": "wait_02", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] }
+      ]
+    },
+
+    {
+      "id": "wait_02",
+      "text": "Time passes. The house makes a sound like it’s settling… but it’s not the house. Something is inside now, moving slow, learning the layout.",
+      "choices": [
+        { "id": "c1", "label": "Move NOW (garage exit)", "to": "garage_check_02", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "You stay too long", "to": "ending_dead_01", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+
+    {
+      "id": "wait_03",
+      "text": "You wait behind a barricaded door. The scratching starts. Then the knob turns. Then the door pushes inward like it’s being hugged by a truck.",
+      "choices": [
+        { "id": "c1", "label": "Climb out to the roof", "to": "roof_escape_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "You hesitate", "to": "ending_dead_01", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    }
+  ]
+}
+

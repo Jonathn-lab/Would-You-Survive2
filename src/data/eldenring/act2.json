@@ -1,0 +1,174 @@
+{
+  "meta": {
+    "id": "eldenring_act2_v1",
+    "title": "WYS 2.0 — Elden Ring (Act 2: Stormveil)",
+    "startNodeId": "elden_act2_intro_01"
+  },
+  "nodes": [
+    {
+      "id": "elden_act2_intro_01",
+      "text": "Stormveil Castle. The walls groan with wind and something worse. Grafted soldiers patrol corridors lined with severed limbs nailed to the stone — Godrick's 'art collection.' Somewhere deeper, the lord of this castle waits. You need his Great Rune.",
+      "choices": [
+        { "id": "c1", "label": "Push through the main corridors", "to": "corridor_main_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Find a side route through the ramparts", "to": "rampart_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c3", "label": "Search for supplies first", "to": "castle_search_01" }
+      ]
+    },
+    {
+      "id": "corridor_main_01",
+      "text": "The main corridor reeks of blood and torch smoke. Two grafted soldiers stand guard ahead — their extra arms grafted crudely onto their shoulders, twitching independently. They haven't seen you yet.",
+      "choices": [
+        { "id": "c1", "label": "Fight through them", "to": "corridor_fight_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }, { "type": "stat", "key": "health", "delta": -1 }] },
+        { "id": "c2", "label": "Summon Spirit Ashes", "to": "corridor_spirits_01", "requirement": { "type": "hasItem", "item": "Spirit Ashes" } },
+        { "id": "c3", "label": "Find another way around", "to": "rampart_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] }
+      ]
+    },
+    {
+      "id": "corridor_fight_01",
+      "text": "You engage the grafted soldiers. They're stronger than normal men — those extra arms swing independently. You take cuts. You give worse. When they fall, the silence is heavy.",
+      "choices": [
+        { "id": "c1", "label": "Push deeper into the castle", "to": "inner_castle_01" },
+        { "id": "c2", "label": "Heal first", "to": "corridor_heal_01", "requirement": { "type": "hasItem", "item": "Crimson Flask" } }
+      ]
+    },
+    {
+      "id": "corridor_spirits_01",
+      "text": "Spectral wolves charge forward. The grafted soldiers never stood a chance — they're swarmed before they can react. You walk through the aftermath untouched.",
+      "choices": [
+        { "id": "c1", "label": "Push deeper", "to": "inner_castle_01" }
+      ]
+    },
+    {
+      "id": "corridor_heal_01",
+      "text": "You drink from the Crimson Flask. Warmth spreads. Wounds close. You're not fully healed, but you'll live. Probably.",
+      "onEnter": [{ "type": "stat", "key": "health", "delta": 3 }],
+      "choices": [
+        { "id": "c1", "label": "Continue deeper", "to": "inner_castle_01" }
+      ]
+    },
+    {
+      "id": "rampart_01",
+      "text": "You climb to the ramparts. Wind screams across the battlements. Below, storm-hawks nest in the crevices — massive birds with razor talons. The view is stunning if you ignore the corpses decorating the walls.",
+      "choices": [
+        { "id": "c1", "label": "Cross the ramparts quickly", "to": "rampart_cross_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -1 }] },
+        { "id": "c2", "label": "Climb down to the inner courtyard", "to": "inner_castle_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c3", "label": "Search a guard tower", "to": "guard_tower_01" }
+      ]
+    },
+    {
+      "id": "rampart_cross_01",
+      "text": "A storm-hawk dives at you mid-crossing. You dodge — barely. Its talons scrape the stone where your head was. You sprint the rest of the way and drop into a stairwell.",
+      "onEnter": [{ "type": "stat", "key": "stress", "delta": 1 }],
+      "choices": [
+        { "id": "c1", "label": "Descend into the castle interior", "to": "inner_castle_01" }
+      ]
+    },
+    {
+      "id": "guard_tower_01",
+      "text": "The tower contains a dead knight, a half-eaten meal, and a Smithing Stone tucked in a weapon rack. You also find a note: 'Godrick is in the throne room. He's been... adding to himself again. The screaming lasted hours.'",
+      "onEnter": [{ "type": "addItem", "item": "Smithing Stone" }],
+      "choices": [
+        { "id": "c1", "label": "Head to the inner castle", "to": "inner_castle_01" }
+      ]
+    },
+    {
+      "id": "castle_search_01",
+      "text": "You search nearby rooms. A storage area holds bandages, dried meat, and a Golden Seed glowing softly in a corner — Erdtree remnant.",
+      "onEnter": [{ "type": "addItem", "item": "Golden Seed" }, { "type": "stat", "key": "health", "delta": 1 }],
+      "choices": [
+        { "id": "c1", "label": "Take the main corridors", "to": "corridor_main_01" },
+        { "id": "c2", "label": "Head up to the ramparts", "to": "rampart_01" }
+      ]
+    },
+    {
+      "id": "inner_castle_01",
+      "text": "The inner castle. A Site of Grace glows at the top of a staircase. Beyond the next door, you hear something — wet, rhythmic, like someone grafting flesh to bone. Godrick's workshop.",
+      "onEnter": [
+        { "type": "stat", "key": "health", "delta": 2 },
+        { "type": "stat", "key": "stamina", "delta": 2 },
+        { "type": "stat", "key": "stress", "delta": -1 }
+      ],
+      "choices": [
+        { "id": "c1", "label": "Enter Godrick's throne room", "to": "godrick_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] },
+        { "id": "c2", "label": "Search for a back exit to skip the fight", "to": "castle_escape_01" },
+        { "id": "c3", "label": "Prepare — use everything you have", "to": "prepare_01" }
+      ]
+    },
+    {
+      "id": "prepare_01",
+      "text": "You check your inventory, steady your breathing, and prepare for the worst. Whatever Godrick is, he holds a Great Rune. Taking it means facing him.",
+      "choices": [
+        { "id": "c1", "label": "Enter the throne room", "to": "godrick_approach_01", "effects": [{ "type": "stat", "key": "stress", "delta": 1 }] },
+        { "id": "c2", "label": "Flee the castle entirely", "to": "castle_escape_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "godrick_approach_01",
+      "text": "You push open the massive doors. The throne room is a cathedral of horror. Limbs hang from chains. And at the center — Godrick the Grafted. He's enormous, covered in stolen arms. He turns. 'A Tarnished? Another one crawling at my feet? I am the lord of all that is golden!' He raises a weapon in each of his many hands.",
+      "choices": [
+        { "id": "c1", "label": "Fight Godrick head on", "to": "godrick_fight_01", "effects": [{ "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Summon Spirit Ashes and fight together", "to": "godrick_spirits_01", "requirement": { "type": "hasItem", "item": "Spirit Ashes" } },
+        { "id": "c3", "label": "Try to reason with him (desperate)", "to": "godrick_talk_01", "effects": [{ "type": "stat", "key": "stress", "delta": 2 }] }
+      ]
+    },
+    {
+      "id": "godrick_fight_01",
+      "text": "You charge. Godrick swings with four arms at once. You dodge two, block one, take one across the ribs. Pain explodes. But you're a Tarnished — you've already died once. What's a little more pain?",
+      "choices": [
+        { "id": "c1", "label": "Press the attack — go for his legs", "to": "godrick_victory_01", "effects": [{ "type": "stat", "key": "health", "delta": -2 }, { "type": "stat", "key": "stamina", "delta": -2 }] },
+        { "id": "c2", "label": "Retreat and heal", "to": "godrick_retreat_01", "requirement": { "type": "hasItem", "item": "Crimson Flask" } },
+        { "id": "c3", "label": "Overcommit to a killing blow", "to": "godrick_death_01", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+    {
+      "id": "godrick_spirits_01",
+      "text": "Spectral wolves swarm Godrick's legs. He roars, swatting at them. The distraction gives you openings — you slash at exposed joints between the grafted limbs. He's strong, but he's also a patchwork.",
+      "choices": [
+        { "id": "c1", "label": "Press the advantage hard", "to": "godrick_victory_01", "effects": [{ "type": "stat", "key": "health", "delta": -1 }, { "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+    {
+      "id": "godrick_talk_01",
+      "text": "'Reason?' Godrick laughs — a sound like grinding gravel. 'I AM reason. I am the culmination of all who came before!' He grabs a severed dragon head from the floor and grafts it to his arm in front of you. It breathes fire. He's not interested in talking.",
+      "choices": [
+        { "id": "c1", "label": "Fight — no other option now", "to": "godrick_fight_01", "effects": [{ "type": "stat", "key": "health", "delta": -1 }] },
+        { "id": "c2", "label": "Run for the exit", "to": "godrick_death_01", "effects": [{ "type": "stat", "key": "health", "delta": -5 }] }
+      ]
+    },
+    {
+      "id": "godrick_retreat_01",
+      "text": "You pull back and drink the Crimson Flask. Warmth. Healing. Godrick charges but you roll aside. The healing gives you enough to try again.",
+      "onEnter": [{ "type": "stat", "key": "health", "delta": 3 }],
+      "choices": [
+        { "id": "c1", "label": "Go for the killing blow", "to": "godrick_victory_01", "effects": [{ "type": "stat", "key": "health", "delta": -1 }, { "type": "stat", "key": "stamina", "delta": -2 }] }
+      ]
+    },
+    {
+      "id": "godrick_victory_01",
+      "text": "You find the rhythm. Dodge. Strike. Dodge. Strike. Godrick stumbles. His grafted limbs betray him — too many, too uncoordinated. Your final blow cleaves through his guard. He falls. 'I am the lord... of all...' Silence. A Great Rune crystallizes from his body — golden, heavy, humming with stolen power. You take it. Stormveil is yours.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 2 Complete: Godrick Felled",
+        "reason": "You defeated Godrick the Grafted and claimed his Great Rune. The Lands Between noticed."
+      }
+    },
+    {
+      "id": "godrick_death_01",
+      "text": "Godrick's dragon arm breathes fire. You don't dodge fast enough. The flames consume everything. 'Kneel,' Godrick whispers to your corpse. 'They all kneel eventually.'",
+      "end": {
+        "type": "dead",
+        "title": "You Died",
+        "reason": "Godrick the Grafted added you to his collection. Your arms were mediocre, he decided."
+      }
+    },
+    {
+      "id": "castle_escape_01",
+      "text": "You find a crumbling wall that leads to the cliffs behind Stormveil. The drop to Liurnia is steep but survivable. You leave Godrick and his Great Rune behind. For now. Sometimes survival means knowing when to walk away.",
+      "end": {
+        "type": "act_complete",
+        "title": "Act 2 Complete: Strategic Retreat",
+        "reason": "You escaped Stormveil without facing Godrick. The Great Rune remains unclaimed. But you're alive."
+      }
+    }
+  ]
+}
