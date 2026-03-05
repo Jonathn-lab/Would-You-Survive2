@@ -1,3 +1,21 @@
+/**
+ * stories.js
+ * Central registry of all available stories in the game.
+ *
+ * Each story entry contains:
+ *   - id:          Unique string identifier used in URLs and save data.
+ *   - title:       Display name of the story.
+ *   - subtitle:    Genre or short descriptor shown as a badge.
+ *   - description: Longer text shown on the story selection card.
+ *   - color:       Hex color used for themed accent styling throughout the UI.
+ *   - acts:        Object mapping act numbers (as strings) to imported JSON act data.
+ *   - actCount:    Number of acts available (used for display on story cards).
+ *
+ * Act data is imported from JSON files organized under data/<storyId>/act<N>.json.
+ * Each act JSON contains a `meta` object and a `nodes` array defining the story tree.
+ */
+
+/* Import act data JSON files for each story */
 import zombieAct1 from "./zombie/act1.json";
 import zombieAct2 from "./zombie/act2.json";
 import eldenringAct1 from "./eldenring/act1.json";
@@ -5,7 +23,12 @@ import eldenringAct2 from "./eldenring/act2.json";
 import spaceAct1 from "./space/act1.json";
 import spaceAct2 from "./space/act2.json";
 
+/**
+ * stories - The master story registry keyed by story ID.
+ * Add new stories here to make them available in the story selection screen.
+ */
 const stories = {
+  /* Zombie Night - suburban zombie survival scenario */
   zombie: {
     id: "zombie",
     title: "Zombie Night",
@@ -15,6 +38,7 @@ const stories = {
     acts: { "1": zombieAct1, "2": zombieAct2 },
     actCount: 2,
   },
+  /* Elden Ring - dark fantasy adventure inspired by the game */
   eldenring: {
     id: "eldenring",
     title: "Elden Ring",
@@ -24,6 +48,7 @@ const stories = {
     acts: { "1": eldenringAct1, "2": eldenringAct2 },
     actCount: 2,
   },
+  /* Void Protocol - deep space horror scenario */
   space: {
     id: "space",
     title: "Void Protocol",

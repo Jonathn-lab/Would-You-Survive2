@@ -1,40 +1,57 @@
+/*
+ * index.css
+ * Vite default base styles. This file is NOT imported by the WYS 2.0 project
+ * (main.jsx imports styles.css instead). Kept for reference only.
+ *
+ * Note: The project's actual base styles and dark theme are defined in styles.css.
+ * If this file were imported alongside styles.css, the body flexbox + place-items
+ * rule below would conflict with the app's layout, so it is intentionally unused.
+ */
+
+/* Root element base typography and color scheme */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light dark;                      /* Support both color schemes */
+  color: rgba(255, 255, 255, 0.87);             /* Default text color (dark mode) */
+  background-color: #242424;                     /* Default background (dark mode) */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;                          /* Disable synthetic bold/italic */
+  text-rendering: optimizeLegibility;            /* Improve text rendering quality */
+  -webkit-font-smoothing: antialiased;           /* Smooth fonts on WebKit browsers */
+  -moz-osx-font-smoothing: grayscale;            /* Smooth fonts on Firefox/macOS */
 }
 
+/* Link styles - medium weight with brand color */
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
+
+/* Link hover - slightly darker shade */
 a:hover {
   color: #535bf2;
 }
 
+/* Body layout - full viewport height flex container */
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  place-items: center;           /* Centers content both axes in a flex context */
   min-width: 320px;
   min-height: 100vh;
 }
 
+/* Default h1 sizing */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+/* Default button styling - rounded with hover border transition */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -46,23 +63,28 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+/* Button hover - show accent-colored border */
 button:hover {
   border-color: #646cff;
 }
+
+/* Button focus - use browser's native focus ring */
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Light mode overrides - swap to light colors when user prefers light scheme */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: #213547;                              /* Dark text for light backgrounds */
+    background-color: #ffffff;                   /* White background */
   }
   a:hover {
-    color: #747bff;
+    color: #747bff;                              /* Lighter link hover color */
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #f9f9f9;                   /* Light gray button background */
   }
 }

@@ -1,33 +1,59 @@
+/*
+ * styles.css
+ * Main stylesheet for the WYS 2.0 application.
+ * Contains all custom styles organized by feature/section.
+ * Imported globally in main.jsx.
+ */
+
+/* ===== Google Fonts Import - Inter typeface for the entire UI ===== */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
+/* ===== CSS Custom Properties (Design Tokens) ===== */
+/* Defines the dark color palette, spacing, and shadow values used throughout */
 :root {
   color-scheme: dark;
+
+  /* Background colors - layered from darkest to card surfaces */
   --bg: #0c0e16;
   --bg2: #10131c;
   --card: #151924;
   --card-hover: #1a1f2e;
+
+  /* Text colors - full brightness to muted/dimmed variants */
   --text: #e4e8f1;
   --text-dim: #c0c8d8;
   --muted: #5e6d85;
+
+  /* Primary accent (red) - used for branding, health stat, danger actions */
   --accent: #c23a3a;
   --accent-glow: rgba(194, 58, 58, 0.3);
   --accent2: #e85d5d;
-  --green: #34d67b;
+
+  /* Semantic colors for stats and UI feedback */
+  --green: #34d67b;               /* Inventory items, save confirmation */
   --green-glow: rgba(52, 214, 123, 0.2);
-  --amber: #e8a33a;
+  --amber: #e8a33a;               /* Stress stat */
   --amber-glow: rgba(232, 163, 58, 0.2);
-  --blue: #3a8ec2;
+  --blue: #3a8ec2;                /* Stamina stat, space story accent */
   --blue-glow: rgba(58, 142, 194, 0.15);
+
+  /* Border colors - subtle separators at varying opacity levels */
   --border: rgba(255,255,255,0.06);
   --border-light: rgba(255,255,255,0.1);
   --border-accent: rgba(194, 58, 58, 0.3);
+
+  /* Input field background */
   --input-bg: rgba(255,255,255,0.04);
+
+  /* Box shadows - standard and large variants for cards/modals */
   --shadow: 0 4px 32px rgba(0,0,0,0.5);
   --shadow-lg: 0 8px 48px rgba(0,0,0,0.6);
 }
 
+/* ===== Global Reset - normalize box model and remove default margins/padding ===== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ===== Body - base font and background for the entire app ===== */
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background: var(--bg);
@@ -35,7 +61,7 @@ body {
   min-height: 100vh;
 }
 
-/* ===== SHELL ===== */
+/* ===== Shell - main content wrapper, centers and constrains page width ===== */
 .shell {
   max-width: 720px;
   margin: 0 auto;
@@ -44,7 +70,12 @@ body {
   position: relative;
 }
 
-/* ===== HOME SCREEN ===== */
+/* ========================================
+   HOME SCREEN
+   Landing page with logo, name input, and action buttons
+   ======================================== */
+
+/* Full-screen fixed background with layered radial gradients for atmosphere */
 .home-bg {
   position: fixed;
   inset: 0;
@@ -57,6 +88,7 @@ body {
     var(--bg);
 }
 
+/* Pulsing glow pseudo-element behind the logo for a dramatic effect */
 .home-bg::before {
   content: '';
   position: absolute;
@@ -70,11 +102,13 @@ body {
   animation: pulse-glow 6s ease-in-out infinite;
 }
 
+/* Keyframes for the pulsing glow animation - scales up and fades in/out */
 @keyframes pulse-glow {
   0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
   50% { opacity: 1; transform: translateX(-50%) scale(1.15); }
 }
 
+/* Flex container that vertically centers all home screen content */
 .home-container {
   display: flex;
   flex-direction: column;
@@ -87,6 +121,7 @@ body {
   z-index: 1;
 }
 
+/* Large "WYS" logo text with red gradient fill and glow effect */
 .home-logo {
   font-size: 72px;
   font-weight: 900;
@@ -100,6 +135,7 @@ body {
   line-height: 1;
 }
 
+/* Uppercase tagline text beneath the logo */
 .home-tagline {
   color: var(--muted);
   font-size: 13px;
@@ -109,6 +145,7 @@ body {
   margin-bottom: 8px;
 }
 
+/* Short description paragraph below the tagline */
 .home-desc {
   color: var(--text-dim);
   font-size: 14px;
@@ -118,6 +155,7 @@ body {
   opacity: 0.7;
 }
 
+/* Glass-like card containing the name input and action buttons */
 .home-card {
   background: linear-gradient(180deg, rgba(21,25,36,0.95) 0%, rgba(16,19,28,0.98) 100%);
   border: 1px solid var(--border-light);
@@ -129,6 +167,7 @@ body {
   backdrop-filter: blur(12px);
 }
 
+/* "Begin" heading inside the home card */
 .home-card h2 {
   font-size: 16px;
   font-weight: 700;
@@ -138,12 +177,14 @@ body {
   letter-spacing: 1.5px;
 }
 
+/* Horizontal gradient divider line between button groups */
 .home-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--border-light), transparent);
   margin: 16px 0;
 }
 
+/* Small version footer text at the bottom of the home screen */
 .home-footer {
   margin-top: 24px;
   color: var(--muted);
@@ -152,7 +193,12 @@ body {
   opacity: 0.5;
 }
 
-/* ===== INPUTS ===== */
+/* ========================================
+   INPUT FIELDS
+   Styled form controls used on the home screen
+   ======================================== */
+
+/* Wrapper for label + input field pair */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -161,6 +207,7 @@ body {
   text-align: left;
 }
 
+/* Small uppercase label above the input */
 .input-label {
   font-size: 11px;
   font-weight: 700;
@@ -169,6 +216,7 @@ body {
   color: var(--muted);
 }
 
+/* Text input field with dark semi-transparent background */
 .input-field {
   width: 100%;
   padding: 13px 16px;
@@ -182,17 +230,20 @@ body {
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
+/* Placeholder text styling - muted and semi-transparent */
 .input-field::placeholder {
   color: var(--muted);
   opacity: 0.4;
 }
 
+/* Input focus state - red accent border with glow ring */
 .input-field:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-glow), 0 0 20px rgba(194,58,58,0.1);
   background: rgba(0,0,0,0.35);
 }
 
+/* Vertical flex container for the action buttons section */
 .home-actions {
   display: flex;
   flex-direction: column;
@@ -200,7 +251,12 @@ body {
   margin-top: 4px;
 }
 
-/* ===== BUTTONS ===== */
+/* ========================================
+   BUTTONS
+   Shared button styles used across all pages
+   ======================================== */
+
+/* Primary action button - red gradient with glow shadow, lifts on hover */
 .btn-primary {
   display: flex;
   align-items: center;
@@ -222,13 +278,16 @@ body {
   letter-spacing: 0.3px;
 }
 
+/* Primary button hover - lifts up with enhanced glow */
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 32px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
+/* Primary button active (pressed) - returns to baseline position */
 .btn-primary:active { transform: translateY(0); }
 
+/* Primary button disabled - faded out, no interaction */
 .btn-primary:disabled {
   opacity: 0.35;
   cursor: not-allowed;
@@ -236,6 +295,7 @@ body {
   box-shadow: none;
 }
 
+/* Secondary action button - transparent with subtle border, for less prominent actions */
 .btn-secondary {
   display: flex;
   align-items: center;
@@ -255,6 +315,7 @@ body {
   text-decoration: none;
 }
 
+/* Secondary button hover - slightly brighter background and text */
 .btn-secondary:hover {
   background: rgba(255,255,255,0.07);
   border-color: rgba(255,255,255,0.15);
@@ -262,12 +323,14 @@ body {
   transform: translateY(-1px);
 }
 
+/* Secondary button disabled - faded out */
 .btn-secondary:disabled {
   opacity: 0.3;
   cursor: not-allowed;
   transform: none;
 }
 
+/* Danger button - red-tinted for destructive actions like clearing data */
 .btn-danger {
   display: flex;
   align-items: center;
@@ -286,26 +349,35 @@ body {
   transition: background 0.2s, border-color 0.2s, transform 0.1s;
 }
 
+/* Danger button hover - more intense red background */
 .btn-danger:hover {
   background: rgba(194,58,58,0.15);
   border-color: rgba(194,58,58,0.35);
   transform: translateY(-1px);
 }
 
+/* Danger button disabled - faded out */
 .btn-danger:disabled {
   opacity: 0.3;
   cursor: not-allowed;
   transform: none;
 }
 
+/* Horizontal row of equally-spaced buttons */
 .btn-row {
   display: flex;
   gap: 10px;
 }
 
+/* Each child in a btn-row takes equal width */
 .btn-row > * { flex: 1; }
 
-/* ===== PLAY SCREEN ===== */
+/* ========================================
+   PLAY SCREEN (GAME PAGE)
+   Active gameplay layout with topbar, stats, story card
+   ======================================== */
+
+/* Full-screen fixed background with dark blue/red gradient for gameplay atmosphere */
 .play-bg {
   position: fixed;
   inset: 0;
@@ -316,6 +388,7 @@ body {
     linear-gradient(180deg, #0a0d14 0%, #0e1118 50%, #0c0f18 100%);
 }
 
+/* Content wrapper for the play screen - centered with z-index above background */
 .play-shell {
   max-width: 720px;
   margin: 0 auto;
@@ -325,7 +398,12 @@ body {
   z-index: 1;
 }
 
-/* ===== TOPBAR ===== */
+/* ========================================
+   TOPBAR
+   Header bar during gameplay with player name, act info, and action buttons
+   ======================================== */
+
+/* Flex container spreading player info (left) and action buttons (right) */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -337,12 +415,14 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+/* Left side of topbar - stacks username and metadata vertically */
 .topbar-left {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
+/* Player username display in the topbar */
 .title {
   margin: 0;
   font-size: 18px;
@@ -351,12 +431,14 @@ body {
   color: var(--text);
 }
 
+/* Row containing act badge and story title */
 .topbar-meta {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
+/* Small pill badge showing the current act number */
 .act-badge {
   display: inline-flex;
   align-items: center;
@@ -371,12 +453,14 @@ body {
   letter-spacing: 0.5px;
 }
 
+/* Right side of topbar - save and menu buttons */
 .topbar-actions {
   display: flex;
   gap: 8px;
   align-items: center;
 }
 
+/* Small icon-style button used in topbar and settings header */
 .btn-icon {
   display: flex;
   align-items: center;
@@ -395,21 +479,29 @@ body {
   white-space: nowrap;
 }
 
+/* Icon button hover - slightly brighter */
 .btn-icon:hover {
   background: rgba(255,255,255,0.07);
   color: var(--text);
   border-color: var(--border-light);
 }
 
+/* Icon button "saved" state - green tint to confirm save action */
 .btn-icon.saved {
   border-color: rgba(52,214,123,0.3);
   color: var(--green);
   background: rgba(52,214,123,0.06);
 }
 
+/* Generic muted/subdued text style used throughout the app */
 .muted { color: var(--muted); font-size: 13px; }
 
-/* ===== STATS BAR ===== */
+/* ========================================
+   STATS BAR
+   Horizontal row of stat pills showing health, stamina, stress
+   ======================================== */
+
+/* Flex container for the stat pill elements */
 .stats-bar {
   display: flex;
   gap: 6px;
@@ -417,6 +509,7 @@ body {
   margin-bottom: 20px;
 }
 
+/* Individual stat pill - rounded box with label and value */
 .stat-pill {
   display: inline-flex;
   gap: 8px;
@@ -428,12 +521,16 @@ body {
   font-size: 13px;
   flex: 1;
   min-width: 100px;
+  position: relative;
+  transition: border-color 0.3s;
 }
 
-.stat-pill.health { border-color: rgba(194,58,58,0.15); }
-.stat-pill.stamina { border-color: rgba(58,142,194,0.15); }
-.stat-pill.stress { border-color: rgba(232,163,58,0.15); }
+/* Stat-specific border colors for visual identification */
+.stat-pill.health { border-color: rgba(194,58,58,0.15); }   /* Red border for health */
+.stat-pill.stamina { border-color: rgba(58,142,194,0.15); }  /* Blue border for stamina */
+.stat-pill.stress { border-color: rgba(232,163,58,0.15); }   /* Amber border for stress */
 
+/* Stat pill label - small uppercase descriptor */
 .stat-pill .pillLabel {
   color: var(--muted);
   font-size: 10px;
@@ -442,13 +539,20 @@ body {
   font-weight: 600;
 }
 
+/* Stat pill value - large bold number */
 .stat-pill .pillValue { font-weight: 800; font-size: 16px; }
 
-.stat-pill.health .pillValue { color: var(--accent2); }
-.stat-pill.stamina .pillValue { color: var(--blue); }
-.stat-pill.stress .pillValue { color: var(--amber); }
+/* Stat-specific value colors matching their border colors */
+.stat-pill.health .pillValue { color: var(--accent2); }   /* Red for health */
+.stat-pill.stamina .pillValue { color: var(--blue); }      /* Blue for stamina */
+.stat-pill.stress .pillValue { color: var(--amber); }      /* Amber for stress */
 
-/* ===== CARD ===== */
+/* ========================================
+   CARDS
+   Container styles for content sections
+   ======================================== */
+
+/* Generic card - dark background with border and shadow */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -457,6 +561,7 @@ body {
   box-shadow: var(--shadow);
 }
 
+/* Story card - enhanced card used on the game page for the narrative area */
 .story-card {
   background: linear-gradient(180deg, var(--card) 0%, rgba(18,22,32,1) 100%);
   border: 1px solid var(--border-light);
@@ -467,6 +572,7 @@ body {
   overflow: hidden;
 }
 
+/* Decorative red gradient line at the top of the story card */
 .story-card::before {
   content: '';
   position: absolute;
@@ -477,6 +583,7 @@ body {
   background: linear-gradient(90deg, transparent, rgba(194,58,58,0.2), transparent);
 }
 
+/* Story narrative text - slightly larger with generous line height for readability */
 .storyText {
   font-size: 17px;
   line-height: 1.7;
@@ -484,9 +591,15 @@ body {
   color: var(--text);
 }
 
-/* ===== CHOICES ===== */
+/* ========================================
+   CHOICES
+   Player decision buttons displayed during gameplay
+   ======================================== */
+
+/* Grid layout for choice buttons - stacked vertically with gap */
 .choices { display: grid; gap: 10px; }
 
+/* Individual choice button - full width, left-aligned text */
 .choiceBtn {
   width: 100%;
   text-align: left;
@@ -504,6 +617,7 @@ body {
   position: relative;
 }
 
+/* Animated left-edge accent bar (hidden by default, expands on hover) */
 .choiceBtn::before {
   content: '';
   position: absolute;
@@ -517,6 +631,7 @@ body {
   transition: height 0.2s;
 }
 
+/* Choice button hover - brighter background, red accent border, lifts slightly */
 .choiceBtn:hover {
   background: rgba(255,255,255,0.05);
   border-color: var(--border-accent);
@@ -525,19 +640,27 @@ body {
   box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
 
+/* Reveal the left accent bar on hover */
 .choiceBtn:hover::before {
   height: 60%;
 }
 
+/* Choice button active (pressed) - returns to base position */
 .choiceBtn:active { transform: translateY(0); }
 
-/* ===== INVENTORY ===== */
+/* ========================================
+   INVENTORY
+   Item display section inside the story card
+   ======================================== */
+
+/* Container for the inventory section - separated from choices by a top border */
 .inventory-section {
   margin-top: 24px;
   padding-top: 20px;
   border-top: 1px solid var(--border);
 }
 
+/* "Inventory" heading label */
 .inventory-label {
   font-size: 10px;
   font-weight: 700;
@@ -547,8 +670,10 @@ body {
   margin-bottom: 10px;
 }
 
+/* Flex container for inventory item chips */
 .chips { display: flex; gap: 8px; flex-wrap: wrap; }
 
+/* Individual inventory item chip - green-tinted pill shape */
 .chip {
   padding: 5px 14px;
   border: 1px solid rgba(52,214,123,0.15);
@@ -559,9 +684,15 @@ body {
   font-weight: 600;
 }
 
-/* ===== LEGACY .stats / .pill (used by StatPill component) ===== */
+/* ========================================
+   LEGACY STAT/PILL STYLES
+   Used by the StatPill component (kept for backward compatibility)
+   ======================================== */
+
+/* Flex container for a row of stat pills */
 .stats { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
+/* Legacy pill shape - rounder than stat-pill, used by StatPill component */
 .pill {
   display: inline-flex;
   gap: 6px;
@@ -573,17 +704,220 @@ body {
   font-size: 13px;
 }
 
+/* Pill label and value text styles */
 .pillLabel { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
 .pillValue { font-weight: 700; }
 
-/* ===== GAME OVER ===== */
-.row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+/* ========================================
+   GAME OVER SCREEN
+   Themed end-of-act summary with stats, inventory, journey
+   ======================================== */
 
-.statsLine { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; }
+/* Full-screen themed background */
+.gameover-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
 
-.history { padding-left: 18px; font-size: 13px; }
-.history li { margin-bottom: 4px; }
+/* Centered content container */
+.gameover-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 40px;
+  position: relative;
+  z-index: 1;
+  animation: text-fade-in 0.5s ease-out;
+}
 
+/* Ending type badge (e.g. "Act Complete", "You Died") */
+.gameover-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  border-radius: 999px;
+  border: 1px solid;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+/* Large ending title */
+.gameover-title {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+/* Ending reason description */
+.gameover-reason {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  max-width: 480px;
+  margin-bottom: 8px;
+}
+
+/* Story + act context */
+.gameover-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+/* Stats/inventory/journey card */
+.gameover-card {
+  background: linear-gradient(180deg, var(--card) 0%, rgba(18,22,32,1) 100%);
+  border: 1px solid var(--border-light);
+  border-radius: 22px;
+  padding: 24px 22px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+/* Section label inside the card */
+.gameover-section-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+/* Stats row using existing stat-pill styles */
+.gameover-stats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* Journey steps list */
+.gameover-journey {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+/* Individual journey step */
+.gameover-journey-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+}
+
+/* Step number badge */
+.gameover-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.06);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Step choice label */
+.gameover-step-label {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.3;
+}
+
+/* Action buttons area */
+.gameover-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+/* ========================================
+   COMING SOON CARD
+   Shown after completing the final available act
+   ======================================== */
+
+.coming-soon-card {
+  position: relative;
+  background: linear-gradient(180deg, rgba(21,25,36,0.95) 0%, rgba(14,17,24,0.98) 100%);
+  border: 1px solid;
+  border-radius: 22px;
+  padding: 32px 28px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.coming-soon-glow {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: pulse-glow 6s ease-in-out infinite;
+}
+
+.coming-soon-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.coming-soon-title {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.coming-soon-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  max-width: 340px;
+  margin: 0 auto 20px;
+  opacity: 0.8;
+  position: relative;
+}
+
+.coming-soon-save {
+  position: relative;
+  width: auto;
+  display: inline-flex;
+}
+
+/* Inline code snippets (kept for backward compat) */
 code {
   color: #8b9fd4;
   background: rgba(139, 159, 212, 0.08);
@@ -592,6 +926,7 @@ code {
   font-size: 12px;
 }
 
+/* Generic button - used on game over screen and 404 page (also works as Link) */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -609,17 +944,25 @@ code {
   transition: background 0.2s, transform 0.1s;
 }
 
+/* Generic button hover - slightly brighter, lifts up */
 .btn:hover {
   background: rgba(255,255,255,0.08);
   transform: translateY(-1px);
 }
 
+/* Ghost variant - fully transparent background */
 .btn.ghost { background: transparent; }
 
+/* Button element-specific overrides for cursor and disabled state */
 button.btn { cursor: pointer; }
 button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
 
-/* ===== SETTINGS ===== */
+/* ========================================
+   SETTINGS PAGE
+   User preferences, display options, and data management
+   ======================================== */
+
+/* Settings page container - narrower max width for form-like layout */
 .settings-page {
   max-width: 500px;
   margin: 0 auto;
@@ -627,6 +970,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   z-index: 1;
 }
 
+/* Settings page background - subtle blue gradient at the top */
 .settings-bg {
   position: fixed;
   inset: 0;
@@ -636,6 +980,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
     var(--bg);
 }
 
+/* Settings header - back button and title side by side */
 .settings-header {
   display: flex;
   align-items: center;
@@ -643,16 +988,19 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   margin-bottom: 32px;
 }
 
+/* Settings page title text */
 .settings-title {
   font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.5px;
 }
 
+/* Spacing between settings card groups */
 .settings-section {
   margin-bottom: 16px;
 }
 
+/* Settings card - groups related settings with a shared border */
 .settings-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -660,6 +1008,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   overflow: hidden;
 }
 
+/* Section header within a settings card (e.g. "Gameplay", "Display") */
 .settings-card-header {
   padding: 16px 20px 12px;
   font-size: 11px;
@@ -669,6 +1018,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   color: var(--muted);
 }
 
+/* Individual settings row - label on left, control on right */
 .settings-row {
   display: flex;
   align-items: center;
@@ -678,24 +1028,29 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   gap: 16px;
 }
 
+/* Label container within a settings row - stacks title and description */
 .settings-row-label {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
+/* Settings option title text */
 .settings-row-title {
   font-size: 14px;
   font-weight: 600;
   color: var(--text);
 }
 
+/* Settings option description/helper text */
 .settings-row-desc {
   font-size: 12px;
   color: var(--muted);
 }
 
-/* Toggle switch */
+/* ===== Toggle Switch - custom checkbox styled as an iOS-like toggle ===== */
+
+/* Toggle container - fixed size wrapper */
 .toggle {
   position: relative;
   width: 44px;
@@ -703,12 +1058,14 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   flex-shrink: 0;
 }
 
+/* Hide the native checkbox input */
 .toggle input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
+/* Toggle track (background) - rounded pill shape */
 .toggle-track {
   position: absolute;
   inset: 0;
@@ -719,6 +1076,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   transition: background 0.25s, border-color 0.25s;
 }
 
+/* Toggle knob (circle) - positioned on the left by default */
 .toggle-track::after {
   content: '';
   position: absolute;
@@ -731,17 +1089,19 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   transition: transform 0.25s, background 0.25s;
 }
 
+/* Toggle checked state - red-tinted track background */
 .toggle input:checked + .toggle-track {
   background: rgba(194,58,58,0.2);
   border-color: rgba(194,58,58,0.3);
 }
 
+/* Toggle checked state - knob slides right and turns accent red */
 .toggle input:checked + .toggle-track::after {
   transform: translateX(20px);
   background: var(--accent2);
 }
 
-/* Select dropdown */
+/* ===== Select Dropdown - custom styled <select> for settings ===== */
 .settings-select {
   padding: 8px 12px;
   border-radius: 10px;
@@ -762,11 +1122,17 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   min-width: 100px;
 }
 
+/* Select focus state - accent-colored border */
 .settings-select:focus {
   border-color: var(--accent);
 }
 
-/* ===== 404 ===== */
+/* ========================================
+   404 NOT FOUND PAGE
+   Minimal centered layout for the error page
+   ======================================== */
+
+/* Centered flex container for 404 content */
 .notfound-container {
   display: flex;
   flex-direction: column;
@@ -776,6 +1142,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   text-align: center;
 }
 
+/* Large "404" number display - faded red accent color */
 .notfound-code {
   font-size: 80px;
   font-weight: 900;
@@ -784,7 +1151,12 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   line-height: 1;
 }
 
-/* ===== SAVE TOAST ===== */
+/* ========================================
+   SAVE TOAST
+   Pop-up notification confirming a game save
+   ======================================== */
+
+/* Toast container - fixed at the bottom center, hidden by default below viewport */
 .save-toast {
   position: fixed;
   bottom: 24px;
@@ -804,12 +1176,18 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   pointer-events: none;
 }
 
+/* Toast visible state - slides up into view and becomes opaque */
 .save-toast.show {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
 }
 
-/* ===== STORY SELECT SCREEN ===== */
+/* ========================================
+   STORY SELECT SCREEN
+   Grid of story cards for choosing which story to play
+   ======================================== */
+
+/* Full-screen background blending accent colors from all three stories */
 .select-bg {
   position: fixed;
   inset: 0;
@@ -821,12 +1199,14 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
     var(--bg);
 }
 
+/* Container for story select content - positioned above the background */
 .select-container {
   position: relative;
   z-index: 1;
   padding-top: 10px;
 }
 
+/* Header with back button and page title/subtitle */
 .select-header {
   display: flex;
   align-items: center;
@@ -834,6 +1214,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   margin-bottom: 36px;
 }
 
+/* "Choose Your Story" heading */
 .select-title {
   font-size: 26px;
   font-weight: 800;
@@ -841,11 +1222,13 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   margin-bottom: 2px;
 }
 
+/* Vertical grid of story selection cards */
 .story-grid {
   display: grid;
   gap: 16px;
 }
 
+/* Individual story card button - full width with left accent bar */
 .story-select-card {
   position: relative;
   display: flex;
@@ -862,6 +1245,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   transition: transform 0.15s, border-color 0.25s, box-shadow 0.25s;
 }
 
+/* Story card hover - lifts up, border tinted with story color, glow shadow */
 .story-select-card:hover {
   transform: translateY(-3px);
   border-color: color-mix(in srgb, var(--story-color) 40%, transparent);
@@ -870,10 +1254,12 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
     0 0 0 1px color-mix(in srgb, var(--story-color) 15%, transparent);
 }
 
+/* Story card active (pressed) - slight lift */
 .story-select-card:active {
   transform: translateY(-1px);
 }
 
+/* Left-edge colored accent bar on each story card */
 .story-select-accent {
   position: absolute;
   top: 0;
@@ -886,11 +1272,13 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   transition: opacity 0.2s, width 0.2s;
 }
 
+/* Accent bar hover - becomes wider and fully opaque */
 .story-select-card:hover .story-select-accent {
   opacity: 1;
   width: 5px;
 }
 
+/* Content area of the story card (right of the accent bar) */
 .story-select-content {
   padding: 24px 24px 24px 20px;
   flex: 1;
@@ -899,6 +1287,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   gap: 6px;
 }
 
+/* Genre/subtitle badge pill (e.g. "Suburban Survival") */
 .story-select-badge {
   display: inline-block;
   width: fit-content;
@@ -913,6 +1302,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   padding: 3px 10px;
 }
 
+/* Story title text inside the card */
 .story-select-title {
   font-size: 22px;
   font-weight: 800;
@@ -920,6 +1310,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   margin: 2px 0 4px;
 }
 
+/* Story description paragraph */
 .story-select-desc {
   font-size: 14px;
   line-height: 1.5;
@@ -927,6 +1318,7 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   margin: 0;
 }
 
+/* Metadata row below description (e.g. "2 Acts") */
 .story-select-meta {
   display: flex;
   gap: 12px;
@@ -934,4 +1326,480 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   font-size: 12px;
   color: var(--muted);
   opacity: 0.7;
+}
+
+/* ========================================
+   TYPEWRITER CURSOR
+   Blinking caret shown while text is revealing
+   ======================================== */
+
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--accent);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ========================================
+   STAT CHANGE ANIMATIONS
+   Floating deltas and shake effect on stat pills
+   ======================================== */
+
+.stat-delta {
+  position: absolute;
+  top: -6px;
+  right: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  pointer-events: none;
+  animation: float-up 1s ease-out forwards;
+  z-index: 10;
+}
+
+.stat-delta.negative { color: var(--accent2); }
+.stat-delta.positive { color: var(--green); }
+
+@keyframes float-up {
+  0% { opacity: 1; transform: translateY(0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-24px); }
+}
+
+.stat-pill.shake {
+  animation: pill-shake 0.4s ease-out;
+}
+
+@keyframes pill-shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-4px); }
+  30% { transform: translateX(4px); }
+  45% { transform: translateX(-3px); }
+  60% { transform: translateX(3px); }
+  75% { transform: translateX(-1px); }
+}
+
+/* Flash stat pill border on change */
+.stat-pill.health.shake { border-color: rgba(194,58,58,0.5); }
+.stat-pill.stamina.shake { border-color: rgba(58,142,194,0.5); }
+.stat-pill.stress.shake { border-color: rgba(232,163,58,0.5); }
+
+/* ========================================
+   SCREEN VIGNETTE EFFECTS
+   Full-screen edge flash on damage / stress
+   ======================================== */
+
+.screen-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+}
+
+.screen-vignette.damage {
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(194, 58, 58, 0.45) 100%);
+  animation: vignette-flash 0.6s ease-out forwards;
+}
+
+.screen-vignette.stress {
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(232, 163, 58, 0.3) 100%);
+  animation: vignette-flash 0.5s ease-out forwards;
+}
+
+@keyframes vignette-flash {
+  0% { opacity: 0.9; }
+  30% { opacity: 0.7; }
+  100% { opacity: 0; }
+}
+
+/* ========================================
+   CHOICE ENTRANCE ANIMATION
+   Staggered slide-up when choices appear
+   ======================================== */
+
+.choices.entering .choiceBtn {
+  opacity: 0;
+  animation: choice-enter 0.35s ease-out forwards;
+}
+
+.choices.entering .choiceBtn:nth-child(1) { animation-delay: 0s; }
+.choices.entering .choiceBtn:nth-child(2) { animation-delay: 0.06s; }
+.choices.entering .choiceBtn:nth-child(3) { animation-delay: 0.12s; }
+.choices.entering .choiceBtn:nth-child(4) { animation-delay: 0.18s; }
+.choices.entering .choiceBtn:nth-child(5) { animation-delay: 0.24s; }
+
+@keyframes choice-enter {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   STORY TEXT FADE-IN
+   Subtle entrance animation for new story text
+   ======================================== */
+
+.storyText.fade-in {
+  animation: text-fade-in 0.4s ease-out;
+}
+
+@keyframes text-fade-in {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   STORY CARD PULSE
+   Brief brightness flash during choice transition
+   ======================================== */
+
+.story-card.pulse {
+  animation: card-pulse 0.3s ease-out;
+}
+
+@keyframes card-pulse {
+  0% { border-color: var(--border-light); }
+  40% { border-color: rgba(255,255,255,0.18); box-shadow: var(--shadow), 0 0 30px rgba(255,255,255,0.03); }
+  100% { border-color: var(--border-light); }
+}
+
+/* ========================================
+   TIMER BAR
+   Countdown indicator for timed choices
+   ======================================== */
+
+.timer-bar-container {
+  margin-bottom: 18px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden;
+}
+
+.timer-bar {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+
+.timer-bar.urgent {
+  background: var(--accent2);
+  animation: timer-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  50% { opacity: 0.5; }
+}
+
+/* ========================================
+   CHOICE BUTTON ENHANCEMENTS
+   Key hints, requirement hints, disabled state
+   ======================================== */
+
+/* Inner layout for key hint + text side by side */
+.choiceBtn-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+.choiceBtn-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+/* Keyboard shortcut badge */
+.choice-key-hint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.choiceBtn:hover .choice-key-hint {
+  background: rgba(255,255,255,0.12);
+  color: var(--text-dim);
+}
+
+/* Requirement hint for locked choices */
+.choice-req-hint {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* Disabled choice button */
+.choiceBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: rgba(255,255,255,0.01);
+  border-color: rgba(255,255,255,0.04);
+}
+
+.choiceBtn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  background: rgba(255,255,255,0.01);
+  border-color: rgba(255,255,255,0.04);
+  color: var(--text-dim);
+}
+
+.choiceBtn:disabled::before {
+  display: none;
+}
+
+.choiceBtn:disabled .choice-key-hint {
+  display: none;
+}
+
+/* ========================================
+   PAUSE MENU OVERLAY
+   Full-screen modal with resume, save, settings, quit
+   ======================================== */
+
+.pause-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: overlay-fade-in 0.2s ease-out;
+}
+
+@keyframes overlay-fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.pause-card {
+  background: linear-gradient(180deg, rgba(21,25,36,0.98) 0%, rgba(12,14,22,0.99) 100%);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 32px 28px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--shadow-lg);
+  animation: modal-slide-up 0.25s ease-out;
+}
+
+@keyframes modal-slide-up {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.pause-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.pause-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+.pause-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pause-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pause-saved {
+  border-color: rgba(52,214,123,0.3) !important;
+  color: var(--green) !important;
+  background: rgba(52,214,123,0.06) !important;
+}
+
+.pause-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+  margin: 20px 0;
+}
+
+.pause-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pause-settings-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.pause-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+
+.pause-setting-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dim);
+}
+
+.pause-quit {
+  width: 100%;
+}
+
+/* ========================================
+   RECAP MODAL
+   "Previously on..." overlay shown when loading a save
+   ======================================== */
+
+.recap-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: overlay-fade-in 0.3s ease-out;
+}
+
+.recap-card {
+  background: linear-gradient(180deg, rgba(21,25,36,0.98) 0%, rgba(12,14,22,0.99) 100%);
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 32px 28px;
+  width: 100%;
+  max-width: 440px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modal-slide-up 0.35s ease-out;
+}
+
+.recap-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.recap-heading {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+}
+
+.recap-story {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.recap-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.recap-section {
+  margin-bottom: 20px;
+}
+
+.recap-section-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.recap-choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recap-choice-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+}
+
+.recap-choice-arrow {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.recap-choice-label {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.recap-stats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.recap-continue {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.recap-hint {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 11px;
 }

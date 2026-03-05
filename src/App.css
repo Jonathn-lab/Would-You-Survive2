@@ -1,3 +1,11 @@
+/*
+ * App.css
+ * Vite boilerplate styles. These are largely unused by the WYS 2.0 project
+ * (the main styles live in styles.css), but are kept for reference and
+ * any components that may use these classes.
+ */
+
+/* Root container - centers content horizontally with max width and padding */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,19 +13,25 @@
   text-align: center;
 }
 
+/* Logo image - sized with padding, uses GPU-accelerated filter transitions */
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
+  will-change: filter;          /* Hint to browser for filter animation optimization */
   transition: filter 300ms;
 }
+
+/* Logo hover effect - blue/purple glow shadow */
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
+/* React logo variant hover - cyan glow shadow */
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* Continuous rotation animation for the React logo */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -27,16 +41,19 @@
   }
 }
 
+/* Only animate logo spin if the user has no reduced-motion preference */
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
+/* Generic card container with padding */
 .card {
   padding: 2em;
 }
 
+/* Muted documentation text in light gray */
 .read-the-docs {
   color: #888;
 }
