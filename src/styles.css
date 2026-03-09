@@ -729,7 +729,17 @@ body {
   padding-top: 40px;
   position: relative;
   z-index: 1;
-  animation: text-fade-in 0.5s ease-out;
+}
+
+/* Staggered reveal animation for game-over elements */
+.gameover-stagger {
+  opacity: 0;
+  animation: gameover-reveal 0.5s ease-out forwards;
+}
+
+@keyframes gameover-reveal {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 /* Ending type badge (e.g. "Act Complete", "You Died") */
@@ -1803,3 +1813,247 @@ button.btn:disabled { cursor: not-allowed; opacity: 0.4; }
   margin-top: 12px;
   font-size: 11px;
 }
+
+/* ========================================
+   PAGE TRANSITIONS
+   Zoom-fade animation on route changes
+   ======================================== */
+
+.page-transition {
+  animation: page-zoom-fade 0.3s ease-out;
+}
+
+@keyframes page-zoom-fade {
+  0% { opacity: 0; transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ========================================
+   LOCKED CHOICE INDICATOR
+   Lock icon and red tint for locked choices
+   ======================================== */
+
+.choiceBtn.locked {
+  border-color: rgba(194,58,58,0.1);
+  background: rgba(194,58,58,0.03);
+}
+
+.choice-lock-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  position: relative;
+}
+
+/* CSS lock icon */
+.choice-lock-icon::before {
+  content: '';
+  width: 12px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--muted);
+  opacity: 0.5;
+  position: absolute;
+  bottom: 4px;
+}
+
+.choice-lock-icon::after {
+  content: '';
+  width: 8px;
+  height: 6px;
+  border: 2px solid var(--muted);
+  border-radius: 6px 6px 0 0;
+  border-bottom: none;
+  opacity: 0.5;
+  position: absolute;
+  top: 4px;
+}
+
+.choiceBtn.locked .choice-req-hint {
+  color: var(--accent);
+  opacity: 0.6;
+}
+
+/* ========================================
+   INVENTORY ITEM ANIMATIONS
+   Slide-in when new items appear
+   ======================================== */
+
+.chip {
+  animation: chip-enter 0.3s ease-out;
+}
+
+@keyframes chip-enter {
+  0% { opacity: 0; transform: translateX(10px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* ========================================
+   STORY SELECT ENTRY ANIMATIONS
+   Cards stagger in on page load
+   ======================================== */
+
+.story-card-enter {
+  opacity: 0;
+  animation: story-card-slide-in 0.4s ease-out forwards;
+}
+
+@keyframes story-card-slide-in {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Recently played badge on story select */
+.story-recent-badge {
+  color: var(--green);
+  background: rgba(52,214,123,0.08);
+  border: 1px solid rgba(52,214,123,0.15);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* ========================================
+   QUIT CONFIRMATION
+   Inline confirm step in pause menu
+   ======================================== */
+
+.quit-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quit-confirm-text {
+  font-size: 13px;
+  color: var(--accent2);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ========================================
+   PREFERS-REDUCED-MOTION
+   Disable/simplify animations for motion-sensitive users
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition,
+  .gameover-stagger,
+  .story-card-enter,
+  .chip,
+  .choices.entering .choiceBtn,
+  .storyText.fade-in,
+  .story-card.pulse,
+  .stat-pill.shake,
+  .stat-delta,
+  .screen-vignette.damage,
+  .screen-vignette.stress,
+  .save-toast,
+  .pause-card,
+  .recap-card,
+  .home-bg::before,
+  .coming-soon-glow,
+  .timer-bar.urgent,
+  .typewriter-cursor {
+    animation: none !important;
+  }
+
+  .page-transition,
+  .gameover-stagger,
+  .story-card-enter,
+  .chip,
+  .choices.entering .choiceBtn {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .save-toast.show {
+    transition: none;
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+/* Tablets and small laptops */
+@media (max-width: 768px) {
+  .home-logo { font-size: 56px; }
+  .home-card { padding: 28px 22px; }
+
+  .play-shell { padding: 20px 16px 48px; }
+  .story-card { padding: 22px 18px; border-radius: 18px; }
+  .storyText { font-size: 16px; }
+
+  .select-title { font-size: 22px; }
+  .story-select-content { padding: 20px 20px 20px 16px; }
+  .story-select-title { font-size: 20px; }
+
+  .gameover-title { font-size: 30px; }
+  .gameover-card { padding: 20px 18px; }
+
+  .pause-card { padding: 28px 22px; }
+  .recap-card { padding: 28px 22px; }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .home-logo { font-size: 48px; letter-spacing: -2px; }
+  .home-tagline { font-size: 11px; letter-spacing: 3px; }
+  .home-card { padding: 24px 18px; border-radius: 18px; }
+
+  .shell { padding: 28px 14px 48px; }
+  .play-shell { padding: 16px 12px 40px; }
+
+  .topbar { gap: 8px; margin-bottom: 14px; padding-bottom: 12px; }
+  .title { font-size: 16px; }
+  .btn-icon { padding: 6px 10px; font-size: 11px; }
+
+  .stats-bar { gap: 4px; margin-bottom: 14px; }
+  .stat-pill { padding: 6px 10px; min-width: 0; border-radius: 10px; }
+  .stat-pill .pillLabel { font-size: 9px; }
+  .stat-pill .pillValue { font-size: 14px; }
+
+  .story-card { padding: 18px 14px; border-radius: 16px; }
+  .storyText { font-size: 15px; line-height: 1.6; margin-bottom: 18px; }
+
+  .choiceBtn { padding: 12px 14px; border-radius: 12px; font-size: 13px; }
+  .choice-key-hint { min-width: 20px; height: 20px; font-size: 10px; }
+
+  .inventory-section { margin-top: 18px; padding-top: 14px; }
+  .chip { padding: 4px 10px; font-size: 11px; }
+
+  .select-header { margin-bottom: 24px; }
+  .select-title { font-size: 20px; }
+  .story-select-content { padding: 16px 16px 16px 14px; gap: 4px; }
+  .story-select-title { font-size: 18px; }
+  .story-select-desc { font-size: 13px; }
+
+  .gameover-title { font-size: 26px; }
+  .gameover-reason { font-size: 14px; }
+  .gameover-card { padding: 18px 16px; border-radius: 18px; }
+
+  .pause-card { padding: 24px 18px; border-radius: 20px; max-width: 100%; }
+  .recap-card { padding: 24px 18px; border-radius: 20px; max-width: 100%; }
+
+  .notfound-code { font-size: 60px; }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .home-logo { font-size: 40px; }
+  .home-card { padding: 20px 14px; }
+  .play-shell { padding: 12px 10px 36px; }
+  .stat-pill .pillLabel { display: none; }
+  .story-card { padding: 14px 12px; }
+  .storyText { font-size: 14px; }
+  .choiceBtn { padding: 10px 12px; }
+}
+

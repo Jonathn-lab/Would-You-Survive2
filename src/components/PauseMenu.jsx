@@ -32,6 +32,7 @@ function persistSettings(s) {
 export default function PauseMenu({ isOpen, onResume, onSave, onQuit, storyTitle, act, accentColor }) {
   const [saved, setSaved] = useState(false);
   const [settings, setSettings] = useState(loadSettings);
+  const [confirmQuit, setConfirmQuit] = useState(false);
 
   /* Sync settings when menu opens */
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function PauseMenu({ isOpen, onResume, onSave, onQuit, storyTitle
     requestAnimationFrame(() => {
       setSettings(loadSettings());
       setSaved(false);
+      setConfirmQuit(false);
     });
   }, [isOpen]);
 
@@ -71,11 +73,11 @@ export default function PauseMenu({ isOpen, onResume, onSave, onQuit, storyTitle
   if (!isOpen) return null;
 
   return (
-    <div className="pause-overlay" onClick={onResume}>
+    <div className="pause-overlay" role="dialog" aria-modal="true" aria-label="Pause menu" onClick={onResume}>
       <div className="pause-card" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="pause-header">
-          <span className="pause-title">Paused</span>
+          <span className="pause-title" id="pause-title">Paused</span>
           <span className="pause-meta">
             <span
               className="act-badge"
@@ -121,6 +123,18 @@ export default function PauseMenu({ isOpen, onResume, onSave, onQuit, storyTitle
           </div>
 
           <div className="pause-setting-row">
+            <span className="pause-setting-name">Sound Effects</span>
+            <label className="toggle">
+              <input
+                type="checkbox"
+                checked={settings.soundEnabled !== false}
+                onChange={() => toggleSetting("soundEnabled")}
+              />
+              <span className="toggle-track" />
+            </label>
+          </div>
+
+          <div className="pause-setting-row">
             <span className="pause-setting-name">Screen Effects</span>
             <label className="toggle">
               <input
@@ -147,9 +161,23 @@ export default function PauseMenu({ isOpen, onResume, onSave, onQuit, storyTitle
 
         {/* Quit */}
         <div className="pause-divider" />
-        <button className="btn-danger pause-quit" onClick={onQuit}>
-          Quit to Menu
-        </button>
+        {!confirmQuit ? (
+          <button className="btn-danger pause-quit" onClick={() => setConfirmQuit(true)}>
+            Quit to Menu
+          </button>
+        ) : (
+          <div className="quit-confirm">
+            <p className="quit-confirm-text">Unsaved progress will be lost.</p>
+            <div className="btn-row">
+              <button className="btn-secondary" onClick={() => setConfirmQuit(false)}>
+                Cancel
+              </button>
+              <button className="btn-danger" onClick={onQuit} style={{ flex: 1 }}>
+                Quit
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

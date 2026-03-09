@@ -19,7 +19,7 @@
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { saveZombieRun } from "../engine/storage";
+import { saveGame } from "../engine/storage";
 import { getNode } from "../engine/storyEngine";
 import stories from "../data/stories";
 
@@ -69,7 +69,7 @@ export default function GameOver() {
   }).filter(Boolean);
 
   function handleSave() {
-    saveZombieRun({
+    saveGame({
       savedAt: Date.now(),
       carry: final,
       lastEnd: end,
@@ -90,7 +90,7 @@ export default function GameOver() {
         <div className="gameover-container">
 
           {/* Ending type badge */}
-          <span className="gameover-badge" style={{
+          <span className="gameover-badge gameover-stagger" style={{
             color: endTheme.color,
             background: `${endTheme.color}12`,
             borderColor: `${endTheme.color}25`,
@@ -99,22 +99,22 @@ export default function GameOver() {
           </span>
 
           {/* Title */}
-          <h1 className="gameover-title" style={{ color: endTheme.color }}>
+          <h1 className="gameover-title gameover-stagger" style={{ color: endTheme.color, animationDelay: "0.1s" }}>
             {end.title}
           </h1>
 
           {/* Reason */}
-          <p className="gameover-reason">{end.reason}</p>
+          <p className="gameover-reason gameover-stagger" style={{ animationDelay: "0.2s" }}>{end.reason}</p>
 
           {/* Story context */}
-          <div className="gameover-meta">
+          <div className="gameover-meta gameover-stagger" style={{ animationDelay: "0.25s" }}>
             <span className="muted">{storyMeta?.title}</span>
             <span className="muted">&middot;</span>
             <span className="muted">Act {act}</span>
           </div>
 
           {/* Stats card */}
-          <div className="gameover-card">
+          <div className="gameover-card gameover-stagger" style={{ animationDelay: "0.35s" }}>
             <span className="gameover-section-label">Final Stats</span>
             <div className="gameover-stats">
               <div className="stat-pill health">
@@ -188,7 +188,7 @@ export default function GameOver() {
           )}
 
           {/* Action buttons */}
-          <div className="gameover-actions">
+          <div className="gameover-actions gameover-stagger" style={{ animationDelay: "0.45s" }}>
             {/* Act complete with next act → continue as primary */}
             {isActComplete && hasNextAct && (
               <button

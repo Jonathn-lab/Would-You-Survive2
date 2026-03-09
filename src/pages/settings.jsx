@@ -15,7 +15,7 @@
  */
 
 import { useNavigate } from "react-router-dom";
-import { clearZombieRun } from "../engine/storage";
+import { clearGame } from "../engine/storage";
 import { useState, useEffect } from "react";
 
 /** localStorage key for persisting settings */
@@ -28,6 +28,7 @@ const defaultSettings = {
   showNodeId: false,
   screenShake: true,
   confirmChoices: false,
+  soundEnabled: true,
 };
 
 /**
@@ -81,7 +82,7 @@ export default function Settings() {
    * Note: Settings themselves are NOT cleared here (just the save + username).
    */
   function handleClearData() {
-    clearZombieRun();
+    clearGame();
     localStorage.removeItem("wys2_username");
     setCleared(true);
   }
@@ -153,6 +154,18 @@ export default function Settings() {
           <div className="settings-section">
             <div className="settings-card">
               <div className="settings-card-header">Display</div>
+
+              {/* Sound Effects - toggle switch */}
+              <div className="settings-row">
+                <div className="settings-row-label">
+                  <span className="settings-row-title">Sound Effects</span>
+                  <span className="settings-row-desc">Play synthesized audio feedback</span>
+                </div>
+                <label className="toggle">
+                  <input type="checkbox" checked={settings.soundEnabled !== false} onChange={() => toggle("soundEnabled")} />
+                  <span className="toggle-track" />
+                </label>
+              </div>
 
               {/* Screen Effects - toggle switch */}
               <div className="settings-row">

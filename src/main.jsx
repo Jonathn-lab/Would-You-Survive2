@@ -12,14 +12,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import ErrorBoundary from "./components/ErrorBoundary";
 import "./styles.css";
 
 /* Create a React root attached to the #root div in index.html and render the app */
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    {/* basename matches Vite base path: /WYS2.0 in production, / in local dev */}
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <App />
-    </BrowserRouter>
+    <ErrorBoundary>
+      {/* basename matches Vite base path: /WYS2.0 in production, / in local dev */}
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <App />
+      </BrowserRouter>
+    </ErrorBoundary>
   </React.StrictMode>
 );

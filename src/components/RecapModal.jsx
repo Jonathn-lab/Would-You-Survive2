@@ -56,7 +56,7 @@ export default function RecapModal({
   if (!isOpen) return null;
 
   return (
-    <div className="recap-overlay" onClick={onClose}>
+    <div className="recap-overlay" role="dialog" aria-modal="true" aria-label="Story recap" onClick={onClose}>
       <div className="recap-card" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="recap-header">

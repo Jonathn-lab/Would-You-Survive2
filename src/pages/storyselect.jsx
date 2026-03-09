@@ -10,6 +10,7 @@
  */
 
 import { useNavigate } from "react-router-dom";
+import { loadGame } from "../engine/storage";
 import stories from "../data/stories";
 
 /** Convert the stories object into an array for iteration */
@@ -20,6 +21,10 @@ export default function StorySelect() {
 
   /* Read the player's chosen username from localStorage for the header display */
   const username = localStorage.getItem("wys2_username") || "Survivor";
+
+  /* Check which story was last played */
+  const save = loadGame();
+  const lastPlayedStory = save?.story ?? null;
 
   /**
    * handleSelect - Navigate to the gameplay screen for the chosen story.
@@ -48,13 +53,15 @@ export default function StorySelect() {
 
           {/* Grid of story selection cards */}
           <div className="story-grid">
-            {storyList.map((s) => (
+            {storyList.map((s, idx) => (
               <button
                 key={s.id}
-                className="story-select-card"
+                className="story-select-card story-card-enter"
                 onClick={() => handleSelect(s.id)}
-                /* Pass the story's theme color as a CSS custom property for accent styling */
-                style={{ "--story-color": s.color }}
+                style={{
+                  "--story-color": s.color,
+                  animationDelay: `${idx * 0.08}s`,
+                }}
               >
                 {/* Left-edge colored accent bar */}
                 <div className="story-select-accent" />
@@ -66,9 +73,12 @@ export default function StorySelect() {
                   <h2 className="story-select-title">{s.title}</h2>
                   {/* Story description */}
                   <p className="story-select-desc">{s.description}</p>
-                  {/* Metadata: number of acts available */}
+                  {/* Metadata: number of acts available + recently played */}
                   <div className="story-select-meta">
                     <span>{s.actCount} Acts</span>
+                    {lastPlayedStory === s.id && (
+                      <span className="story-recent-badge">Recently Played</span>
+                    )}
                   </div>
                 </div>
               </button>

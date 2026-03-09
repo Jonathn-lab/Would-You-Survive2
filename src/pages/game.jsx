@@ -27,7 +27,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import stories from "../data/stories";
 import { gameReducer, initialState } from "../engine/gameReducer";
 import { getNode, meetsRequirement, getRequirementHint } from "../engine/storyEngine";
-import { saveZombieRun, loadZombieRun } from "../engine/storage";
+import { saveGame, loadGame } from "../engine/storage";
 import { useTypewriter } from "../hooks/useTypewriter";
 import {
   playClick,
@@ -42,6 +42,7 @@ import ChoiceButton from "../components/ChoiceButton";
 import AmbientBackground from "../components/AmbientBackground";
 import PauseMenu from "../components/PauseMenu";
 import RecapModal from "../components/RecapModal";
+
 
 /** Read settings from localStorage */
 const SETTINGS_KEY = "wys2_settings";
@@ -80,6 +81,7 @@ export default function Game() {
   const tickSoundRef = useRef(0);
   const autoSaveSkipRef = useRef(true);
   const isLoadedSaveRef = useRef(false);
+  const storyCardRef = useRef(null);
 
   /* ---- Parse URL params ---- */
   const params = new URLSearchParams(window.location.search);
@@ -172,7 +174,7 @@ export default function Game() {
   }, [story, state.history]);
 
   const savedAt = useMemo(() => {
-    const save = loadZombieRun();
+    const save = loadGame();
     return save?.savedAt ?? null;
   }, []);
 
@@ -250,6 +252,14 @@ export default function Game() {
   }, [state.nodeId, node?.id]);
 
   /**
+   * Scroll to story card on node change (helpful on mobile).
+   */
+  useEffect(() => {
+    if (!node || !storyCardRef.current) return;
+    storyCardRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [state.nodeId, node?.id]);
+
+  /**
    * Auto-save — silently saves after each node change (skips first mount).
    */
   useEffect(() => {
@@ -258,7 +268,7 @@ export default function Game() {
       autoSaveSkipRef.current = false;
       return;
     }
-    saveZombieRun({
+    saveGame({
       savedAt: Date.now(),
       carry: state,
       lastEnd: null,
@@ -420,7 +430,7 @@ export default function Game() {
 
   /** Save current game state to localStorage */
   function handleSave() {
-    saveZombieRun({
+    saveGame({
       savedAt: Date.now(),
       carry: state,
       lastEnd: null,
@@ -504,10 +514,10 @@ export default function Game() {
           </div>
 
           <div className="topbar-actions">
-            <button className={`btn-icon${showToast ? " saved" : ""}`} onClick={handleSave}>
+            <button className={`btn-icon${showToast ? " saved" : ""}`} onClick={handleSave} aria-label="Save game">
               Save
             </button>
-            <button className="btn-icon" onClick={() => setPauseOpen(true)}>
+            <button className="btn-icon" onClick={() => setPauseOpen(true)} aria-label="Open pause menu">
               Menu
             </button>
           </div>
@@ -534,7 +544,7 @@ export default function Game() {
         </div>
 
         {/* Story card — pulses during choice transition */}
-        <div className={`story-card${transitioning ? " pulse" : ""}`}>
+        <div ref={storyCardRef} className={`story-card${transitioning ? " pulse" : ""}`}>
 
           {/* Timer countdown bar */}
           {timerLeft !== null && timerTotal && (
@@ -551,6 +561,7 @@ export default function Game() {
             className={`storyText${!transitioning && !pauseOpen && !showRecap && node.text ? " fade-in" : ""}`}
             onClick={!typewriterDone ? skipTypewriter : undefined}
             style={{ cursor: !typewriterDone ? "pointer" : "default" }}
+            aria-live="polite"
           >
             {(transitioning || pauseOpen || showRecap) ? "" : displayed}
             {!typewriterDone && !transitioning && !pauseOpen && !showRecap && (
@@ -559,7 +570,7 @@ export default function Game() {
           </p>
 
           {/* Choices — all choices rendered, locked ones shown as disabled */}
-          <div className={`choices${typewriterDone && !transitioning && !pauseOpen && !showRecap ? " entering" : ""}`}>
+          <div className={`choices${typewriterDone && !transitioning && !pauseOpen && !showRecap ? " entering" : ""}`} role="group" aria-label="Choices">
             {typewriterDone && !transitioning && !pauseOpen && !showRecap && allChoices.map((c) => {
               const isAvailable = meetsRequirement(state, c.requirement);
               const keyNum = isAvailable ? ++availableIndex : null;
@@ -590,6 +601,7 @@ export default function Game() {
               )}
             </div>
           </div>
+
         </div>
 
         {/* Save confirmation toast */}

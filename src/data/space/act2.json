@@ -220,7 +220,7 @@
     },
     {
       "id": "ending_verify",
-      "text": "You descend to the lower deck. The organic mass is gone — dissolved into grey ash that coats every surface. Lab 3 is empty. The containment unit is shattered but clean. Then you see it: in the corner, a single tendril, no bigger than a finger, still pulsing. Still alive. You grab the Wrench and crush it. It pops like a blister. Nothing else moves. When the Helios arrives, you tell them to burn everything anyway. They do.",
+      "text": "You descend to the lower deck. The organic mass is gone — dissolved into grey ash that coats every surface. Lab 3 is empty. The containment unit is shattered but clean. Then you see it: in the corner, a single tendril, no bigger than a finger, still pulsing. Still alive. You stomp on it hard. It pops like a blister. Nothing else moves. When the Helios arrives, you tell them to burn everything anyway. They do.",
       "end": {
         "type": "act_complete",
         "title": "Act 2 Complete: Scorched Clean",

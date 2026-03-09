@@ -49,7 +49,7 @@ export function meetsRequirement(state, req) {
 
   if (req.type === "hasItem") return state.inventory.includes(req.item);
   if (req.type === "minStat") return (state.stats[req.key] ?? 0) >= req.value;
-  if (req.type === "flagEquals") return state.flags[req.key] === req.value;
+  if (req.type === "flagEquals") return (state.flags[req.key] ?? false) === req.value;
 
   /*
    * Unknown requirement types default to false (blocks the choice).

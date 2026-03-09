@@ -12,9 +12,16 @@
 
 export default function ChoiceButton({ children, onClick, disabled, keyHint, requirementHint }) {
   return (
-    <button className="choiceBtn" onClick={onClick} disabled={disabled}>
+    <button
+      className={`choiceBtn${disabled ? " locked" : ""}`}
+      onClick={onClick}
+      disabled={disabled}
+      aria-disabled={disabled || undefined}
+      aria-label={disabled && requirementHint ? `${children} (${requirementHint})` : undefined}
+    >
       <span className="choiceBtn-inner">
-        {keyHint && <span className="choice-key-hint">{keyHint}</span>}
+        {disabled && <span className="choice-lock-icon" aria-hidden="true" />}
+        {keyHint && !disabled && <span className="choice-key-hint" aria-hidden="true">{keyHint}</span>}
         <span className="choiceBtn-text">
           {children}
           {requirementHint && (

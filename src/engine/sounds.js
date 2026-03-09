@@ -8,15 +8,32 @@
 
 let ctx = null;
 
+function isMuted() {
+  try {
+    const raw = localStorage.getItem("wys2_settings");
+    if (!raw) return false;
+    const s = JSON.parse(raw);
+    return s.soundEnabled === false;
+  } catch {
+    return false;
+  }
+}
+
 function getCtx() {
-  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-  if (ctx.state === "suspended") ctx.resume();
-  return ctx;
+  if (isMuted()) return null;
+  try {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === "suspended") ctx.resume();
+    return ctx;
+  } catch {
+    return null;
+  }
 }
 
 /** Short click/tap sound for selecting a choice */
 export function playClick() {
   const c = getCtx();
+  if (!c) return;
   const o = c.createOscillator();
   const g = c.createGain();
   o.connect(g);
@@ -33,6 +50,7 @@ export function playClick() {
 /** Low rumble for taking damage (health loss) */
 export function playDamage() {
   const c = getCtx();
+  if (!c) return;
   const o = c.createOscillator();
   const g = c.createGain();
   o.connect(g);
@@ -49,6 +67,7 @@ export function playDamage() {
 /** Dissonant hum for stress increase */
 export function playStress() {
   const c = getCtx();
+  if (!c) return;
   const o1 = c.createOscillator();
   const o2 = c.createOscillator();
   const g = c.createGain();
@@ -70,6 +89,7 @@ export function playStress() {
 /** Pleasant ascending arpeggio for gaining an item */
 export function playItemGain() {
   const c = getCtx();
+  if (!c) return;
   [520, 660, 784].forEach((freq, i) => {
     const o = c.createOscillator();
     const g = c.createGain();
@@ -88,6 +108,7 @@ export function playItemGain() {
 /** Soft tick for timer countdown (last 3 seconds) */
 export function playTimerTick() {
   const c = getCtx();
+  if (!c) return;
   const o = c.createOscillator();
   const g = c.createGain();
   o.connect(g);
@@ -103,6 +124,7 @@ export function playTimerTick() {
 /** Descending tone when timer runs out */
 export function playTimerExpire() {
   const c = getCtx();
+  if (!c) return;
   const o = c.createOscillator();
   const g = c.createGain();
   o.connect(g);

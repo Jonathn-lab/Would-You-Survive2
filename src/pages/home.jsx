@@ -14,7 +14,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { loadZombieRun } from "../engine/storage";
+import { loadGame } from "../engine/storage";
 
 /** localStorage key for the player's chosen username */
 const USERNAME_KEY = "wys2_username";
@@ -26,7 +26,7 @@ export default function Home() {
   const [username, setUsername] = useState(() => localStorage.getItem(USERNAME_KEY) ?? "");
 
   /* Check if a save file exists to enable/disable the "Load Save" button */
-  const hasSave = !!loadZombieRun();
+  const hasSave = !!loadGame();
 
   /**
    * Effect: Persist username to localStorage whenever it changes.
@@ -52,10 +52,10 @@ export default function Home() {
    * If the last ending was an act completion, it resumes at the next act.
    */
   function handleLoad() {
-    const save = loadZombieRun();
+    const save = loadGame();
     if (!save) return;
     const story = save.story || "zombie";
-    const act = save.lastEnd?.type === "act_complete" ? "2" : (save.act || "1");
+    const act = save.lastEnd?.type === "act_complete" ? String(Number(save.act || "1") + 1) : (save.act || "1");
     nav(`/play?story=${story}&act=${act}`, { state: { carry: save.carry } });
   }
 
