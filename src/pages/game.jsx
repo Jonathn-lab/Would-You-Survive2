@@ -82,6 +82,7 @@ export default function Game() {
   const autoSaveSkipRef = useRef(true);
   const isLoadedSaveRef = useRef(false);
   const storyCardRef = useRef(null);
+  const timerStartedAtRef = useRef(null);
 
   /* ---- Parse URL params ---- */
   const params = new URLSearchParams(window.location.search);
@@ -292,6 +293,7 @@ export default function Game() {
     const total = node.timer;
     setTimerTotal(total);
     setTimerLeft(total);
+    timerStartedAtRef.current = Date.now();
 
     timerRef.current = setInterval(() => {
       setTimerLeft(prev => {
@@ -419,6 +421,13 @@ export default function Game() {
    */
   function handleChoice(choice) {
     playClick();
+
+    /* Quick Draw — set flag if player chose within 2s of a timer starting */
+    if (timerStartedAtRef.current && (Date.now() - timerStartedAtRef.current) <= 2000) {
+      dispatch({ type: "APPLY_EFFECTS", payload: { effects: [{ type: "setFlag", key: "quickDraw", value: true }] } });
+    }
+    timerStartedAtRef.current = null;
+
     clearInterval(timerRef.current);
     setTimerLeft(null);
     setTransitioning(true);

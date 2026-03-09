@@ -14,8 +14,8 @@
  * Also provides a "Clear All Data" button to wipe saves, username, and settings.
  */
 
-import { useNavigate } from "react-router-dom";
-import { clearGame } from "../engine/storage";
+import { useNavigate, Link } from "react-router-dom";
+import { clearGame, clearAchievements } from "../engine/storage";
 import { useState, useEffect } from "react";
 
 /** localStorage key for persisting settings */
@@ -83,6 +83,7 @@ export default function Settings() {
    */
   function handleClearData() {
     clearGame();
+    clearAchievements();
     localStorage.removeItem("wys2_username");
     setCleared(true);
   }
@@ -225,6 +226,19 @@ export default function Settings() {
                   <span className="settings-row-title">WYS 2.0</span>
                   <span className="settings-row-desc">A choice-driven survival story. Choices hurt. Sometimes literally.</span>
                 </div>
+              </div>
+              <div className="settings-row">
+                <div className="settings-row-label">
+                  <span className="settings-row-title">Trophy Case</span>
+                  <span className="settings-row-desc">View your unlocked achievements</span>
+                </div>
+                <Link
+                  className="btn-icon"
+                  to="/achievements"
+                  style={{ textDecoration: "none" }}
+                >
+                  View
+                </Link>
               </div>
             </div>
           </div>

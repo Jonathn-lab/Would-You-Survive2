@@ -11,6 +11,7 @@ import StorySelect from "./pages/storyselect.jsx";
 import Game from "./pages/game.jsx";
 import GameOver from "./pages/gameover.jsx";
 import Settings from "./pages/settings.jsx";
+import Achievements from "./pages/achievements.jsx";
 import NotFound from "./pages/notfound.jsx";
 import PageTransition from "./components/PageTransition.jsx";
 
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/play" element={<Game />} />
         <Route path="/game-over" element={<GameOver />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/achievements" element={<Achievements />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PageTransition>

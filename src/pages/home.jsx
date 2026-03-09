@@ -123,6 +123,14 @@ export default function Home() {
                   Load Save
                 </button>
 
+                {/* Navigate to the trophy case page */}
+                <button
+                  className="btn-secondary"
+                  onClick={() => nav("/achievements")}
+                >
+                  Trophies
+                </button>
+
                 {/* Navigate to the settings page */}
                 <button
                   className="btn-secondary"

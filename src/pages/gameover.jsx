@@ -18,9 +18,10 @@
  */
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { saveGame } from "../engine/storage";
 import { getNode } from "../engine/storyEngine";
+import { checkAchievements } from "../engine/achievements";
 import stories from "../data/stories";
 
 /** Map ending types to accent colors and labels */
@@ -42,6 +43,16 @@ export default function GameOver() {
   const act = state?.act || "1";
 
   const [saved, setSaved] = useState(false);
+  const [newAchievements, setNewAchievements] = useState([]);
+  const checkedRef = useRef(false);
+
+  /** Check achievements once on mount */
+  useEffect(() => {
+    if (!end || checkedRef.current) return;
+    checkedRef.current = true;
+    const unlocked = checkAchievements({ end, final: final, storyId, act });
+    setNewAchievements(unlocked);
+  }, [end, final, storyId, act]);
 
   if (!end) {
     return (
@@ -184,6 +195,27 @@ export default function GameOver() {
               >
                 {saved ? "Run Saved!" : "Save Run for Act " + nextAct}
               </button>
+            </div>
+          )}
+
+          {/* Newly unlocked achievements */}
+          {newAchievements.length > 0 && (
+            <div className="gameover-achievements gameover-stagger" style={{ animationDelay: "0.5s" }}>
+              <span className="gameover-achievements-label">Achievements Unlocked</span>
+              <div className="gameover-ach-list">
+                {newAchievements.map((ach) => (
+                  <div key={ach.id} className="gameover-ach-card">
+                    <span className="gameover-ach-icon">{ach.icon}</span>
+                    <div className="gameover-ach-info">
+                      <span className="gameover-ach-title">{ach.title}</span>
+                      <span className="gameover-ach-desc">{ach.description}</span>
+                    </div>
+                    <span className={`trophy-rarity gameover-ach-rarity ${ach.rarity}`}>
+                      {ach.rarity}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 

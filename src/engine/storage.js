@@ -13,6 +13,8 @@
 
 /** localStorage key where the game save is stored */
 const SAVE_KEY = "wys2_save";
+const ACHIEVEMENTS_KEY = "wys2_achievements";
+const ACH_STATS_KEY = "wys2_achievement_stats";
 
 /**
  * saveGame - Serialize and save game data to localStorage.
@@ -46,4 +48,54 @@ export function loadGame() {
 export function clearGame() {
   localStorage.removeItem(SAVE_KEY);
   localStorage.removeItem("wys2_save_zombie");
+}
+
+/**
+ * loadAchievements - Read unlocked achievement IDs from localStorage.
+ * @returns {string[]} Array of unlocked achievement ID strings.
+ */
+export function loadAchievements() {
+  try {
+    const raw = localStorage.getItem(ACHIEVEMENTS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * saveAchievements - Persist unlocked achievement IDs to localStorage.
+ * @param {string[]} ids - Array of achievement ID strings.
+ */
+export function saveAchievements(ids) {
+  localStorage.setItem(ACHIEVEMENTS_KEY, JSON.stringify(ids));
+}
+
+/**
+ * loadAchievementStats - Read cumulative achievement tracking stats.
+ * @returns {object} Stats object (e.g. { deaths: 0, deathStories: [], actsCompleted: [] }).
+ */
+export function loadAchievementStats() {
+  try {
+    const raw = localStorage.getItem(ACH_STATS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * saveAchievementStats - Persist cumulative achievement tracking stats.
+ * @param {object} stats - The stats object to save.
+ */
+export function saveAchievementStats(stats) {
+  localStorage.setItem(ACH_STATS_KEY, JSON.stringify(stats));
+}
+
+/**
+ * clearAchievements - Remove all achievement data from localStorage.
+ */
+export function clearAchievements() {
+  localStorage.removeItem(ACHIEVEMENTS_KEY);
+  localStorage.removeItem(ACH_STATS_KEY);
 }
